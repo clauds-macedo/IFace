@@ -1,54 +1,31 @@
 import java.util.Scanner;
 
 public class CLI {
+    Scanner scanner = new Scanner(System.in).useDelimiter("\\n");
+    AccountManagement accountManagement = new AccountManagement();
 
-    Scanner scanner;
-    AccountManagement accountManagement;
-    Database database;
-    UserFriends userFriends;
-    Community community;
-    Message message;
-
-    private static boolean isLoggedIn;
-
-
-    public CLI(){
-        this.scanner = new Scanner(System.in).useDelimiter("\\n");
-        this.database = new Database();
-        this.accountManagement = new AccountManagement();
-        this.userFriends = new UserFriends();
-        this.community = new Community();
-        this.message = new Message();
-    }
-
-    public void show_cli(){
-
-        database.addNewUser(new User("teste", "1", "2"));
-        database.addNewUser(new User("baldoino", "1", "2"));
-        database.addNewUser(new User("claudemir", "1", "2"));
-
-        while (true){
+    boolean isLoggedIn = false;
+    public void showCLI() {
+        while (true) {
             if (!isLoggedIn) {
                 System.out.println("1: Registrar\n" +
                         "2: Logar\n" +
                         "3: Database");
-
                 int OPTION = scanner.nextInt();
-
-                if (OPTION == 0) break;
-
+                if (OPTION == 999) {
+                    break;
+                }
                 else if (OPTION == 1) {
-                    this.database.addNewUser(accountManagement.getNewRegisteredUser());
-                } else if (OPTION == 2) {
-                    if (accountManagement.login()) {
-                        this.isLoggedIn = true;
+                    accountManagement.register("claudemir", "123", "clauds");
+                }
+                else if (OPTION == 2) {
+                    if (accountManagement.login()){
+                        isLoggedIn = true;
                     }
-                } else if (OPTION == 3) {
-                    this.database.showUserDatabase();
                 }
             }
             else {
-                System.out.println("User: " + this.accountManagement.getLoggedInUser());
+                System.out.println("User: " + accountManagement.getLoggedInUser());
 
                 System.out.println("Escolha uma opção:\n"
                         + "1: Editar perfil\n"
@@ -72,45 +49,44 @@ public class CLI {
                     this.isLoggedIn = false;
                 }
 
-                else if (OPTION == 1) {
-                    this.accountManagement.editProfile();
-                }
+//                else if (OPTION == 1) {
+//                    this.accountManagement.editProfile();
+//                }
 
-                else if (OPTION == 2) {
-                    System.out.println("Digite o nome de usuário que quer enviar o convite");
-                    String friendToInvite = scanner.next();
-                    this.userFriends.sendRequestToAUser(friendToInvite);
-                }
-
-                else if (OPTION == 3) {
-                    this.userFriends.showFriendRequests();
-                }
-
-                else if (OPTION == 4) {
-                    this.userFriends.showFriendList();
-                }
-
-                else if (OPTION == 5) {
-                    community.create_community();
-                }
-
-                else if (OPTION == 6) {
-                    community.showCommunities();
-                }
-
-                else if (OPTION == 7) {
-                    community.enterInCommunity();
-                }
-
-                else if (OPTION == 8) {
-                    this.message.sendMessage();
-                }
-
-                else if (OPTION == 9) {
-                    this.message.showMessages();
-                }
+//                else if (OPTION == 2) {
+//                    System.out.println("Digite o nome de usuário que quer enviar o convite");
+//                    String friendToInvite = scanner.next();
+//                    this.userFriends.sendRequestToAUser(friendToInvite);
+//                }
+//
+//                else if (OPTION == 3) {
+//                    this.userFriends.showFriendRequests();
+//                }
+//
+//                else if (OPTION == 4) {
+//                    this.userFriends.showFriendList();
+//                }
+//
+//                else if (OPTION == 5) {
+//                    community.create_community();
+//                }
+//
+//                else if (OPTION == 6) {
+//                    community.showCommunities();
+//                }
+//
+//                else if (OPTION == 7) {
+//                    community.enterInCommunity();
+//                }
+//
+//                else if (OPTION == 8) {
+//                    this.message.sendMessage();
+//                }
+//
+//                else if (OPTION == 9) {
+//                    this.message.showMessages();
+//                }
+               }
             }
         }
     }
-
-}

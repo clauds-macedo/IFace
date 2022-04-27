@@ -1,7 +1,7 @@
-public class main {
-    public static void main(String[] strings){
+public class Main {
+    public static void main(String[] args) {
         CLI cli = new CLI();
-        cli.show_cli();
+        cli.showCLI();
     }
 
 }
