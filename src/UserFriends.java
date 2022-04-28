@@ -1,23 +1,18 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 public class UserFriends {
-
-    static Map<String, ArrayList<String>> FRIENDLIST;
-    static Map<String, ArrayList<String>> FRIENDREQUESTS;
-    Database database;
-    AccountManagement accountManagement;
-
+    static Map<String, ArrayList<String>> FRIENDLIST, FRIENDREQUESTS;
+    Database database = new Database();
+    AccountManagement accountManagement = new AccountManagement();
+    Scanner scanner = new Scanner(System.in).useDelimiter("\\n");
     UserFriends(){
         this.FRIENDLIST = new HashMap<String, ArrayList<String>>();
         this.FRIENDREQUESTS = new HashMap<String, ArrayList<String>>();
-        this.database = new Database();
-        this.accountManagement = new AccountManagement();
     }
 
-    void sendRequestToAUser(String userToSendInvite){
+    void sendRequestToAUser(){
+        System.out.println("Digite o nome de usuário que quer enviar o convite");
+        String userToSendInvite = scanner.next();
         if (!this.database.checkAccountExistence(userToSendInvite)){
             return;
         }
@@ -28,17 +23,17 @@ public class UserFriends {
             this.FRIENDREQUESTS.get(userToSendInvite).add(accountManagement.getLoggedInUser());
             System.out.println("Convite enviado.");
         }
+        System.out.println(FRIENDREQUESTS);
         checkIfUsersAreFriends();
     }
 
-    void checkIfUsersAreFriends(){
+    void checkIfUsersAreFriends() {
         if (this.FRIENDREQUESTS.get(this.accountManagement.getLoggedInUser()) == null) {
             return;
         }
-
-        Iterator<String> REQUESTS = FRIENDREQUESTS.get(this.accountManagement.getLoggedInUser()).iterator();
+        Iterator<String> REQUESTS = FRIENDREQUESTS
+                                    .get(this.accountManagement.getLoggedInUser()).iterator();
         boolean isAdded = false;
-
         while (REQUESTS.hasNext()) {
             String REQUEST = REQUESTS.next();
             if (this.FRIENDREQUESTS.get(REQUEST).contains(this.accountManagement.getLoggedInUser())) {
@@ -54,21 +49,17 @@ public class UserFriends {
         if (isAdded) System.out.println("Amigo adicionado à sua lista de amigos.");
     }
 
-    void showFriendRequests(){
+    void showFriendRequests() {
         if (this.FRIENDREQUESTS.get(this.accountManagement.getLoggedInUser()) == null) {
             System.out.println("Sem convites.");
             return;
         }
-
         Iterator<String> REQUESTS = this.FRIENDREQUESTS.get(this.accountManagement.getLoggedInUser()).iterator();
-
         System.out.println("===Lista de convites===");
-
         while (REQUESTS.hasNext()) {
             String REQUEST = REQUESTS.next();
             System.out.println(REQUEST);
         }
-
         System.out.println("=======================\n");
     }
 
@@ -81,12 +72,10 @@ public class UserFriends {
         Iterator<String> FRIENDS = this.FRIENDLIST.get(this.accountManagement.getLoggedInUser()).iterator();
 
         System.out.println("===Lista de amigos===");
-
         while (FRIENDS.hasNext()) {
             String FRIEND = FRIENDS.next();
             System.out.println(FRIEND);
         }
-
         System.out.println("=======================\n");
     }
 

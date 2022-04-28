@@ -18,8 +18,4 @@ public class User {
         return loggedInUser;
     }
 
-    public void sendMessageToAUser() {
-        message.sendMessage(getLoggedInUser(), new Message("baldoino", "opaa"));
-    }
-
 }

@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class AccountManagement extends Database {
-    private String loggedInUser;
+    private static String loggedInUser;
     Scanner scanner = new Scanner(System.in).useDelimiter("\\n");
     public String getLoggedInUser() {
         return loggedInUser;

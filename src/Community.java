@@ -5,19 +5,18 @@ public class Community {
     static Map<String, ArrayList<String>> COMMUNITIES;
     AccountManagement accountManagement;
     Database database;
-    Scanner scanner;
+    Scanner scanner = new Scanner(System.in).useDelimiter("\\n");
 
-    public Community(){
+    private String communityName, communityDescription;
+    public Community(String communityName, String communityDescription) {
+        this.communityName = communityName;
+        this.communityDescription = communityDescription;
         this.COMMUNITIES = new HashMap<String, ArrayList<String>>();
         this.accountManagement = new AccountManagement();
-        this.scanner = new Scanner(System.in);
     }
 
-    void create_community() {
-        System.out.println("Digite o nome da comunidade que deseja criar.");
-        String community_name = this.scanner.useDelimiter("\\n").next();
-
-        if (this.COMMUNITIES.containsKey(community_name)) {
+    void createCommunity() {
+        if (this.COMMUNITIES.containsKey(this.communityName)) {
             System.out.println("Essa comunidade já existe!");
             return;
         }
@@ -25,9 +24,9 @@ public class Community {
         System.out.println("Digite a descrição da comunidade que deseja criar.");
         String description = this.scanner.useDelimiter("\\n").next();
 
-        this.COMMUNITIES.put(community_name, new ArrayList<String>());
-        this.COMMUNITIES.get(community_name).add(this.accountManagement.getLoggedInUser()); //dono vai sempre estar na pos. 0 do array de membros
-        this.COMMUNITIES.get(community_name).add(description);
+        this.COMMUNITIES.put(this.communityName, new ArrayList<String>());
+        this.COMMUNITIES.get(this.communityName).add(this.accountManagement.getLoggedInUser()); //dono vai sempre estar na pos. 0 do array de membros
+        this.COMMUNITIES.get(this.communityName).add(description);
 
         System.out.println("Comunidade criada!");
         return;

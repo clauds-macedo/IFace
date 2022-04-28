@@ -3,7 +3,8 @@ import java.util.Scanner;
 public class CLI {
     Scanner scanner = new Scanner(System.in).useDelimiter("\\n");
     AccountManagement accountManagement = new AccountManagement();
-
+    Message message;
+    UserFriends userFriends = new UserFriends();
     boolean isLoggedIn = false;
     public void showCLI() {
         while (true) {
@@ -17,6 +18,8 @@ public class CLI {
                 }
                 else if (OPTION == 1) {
                     accountManagement.register("claudemir", "123", "clauds");
+                    accountManagement.register("baldoino", "123", "clauds");
+                    accountManagement.register("marciao", "123", "clauds");
                 }
                 else if (OPTION == 2) {
                     if (accountManagement.login()){
@@ -49,19 +52,17 @@ public class CLI {
                     this.isLoggedIn = false;
                 }
 
-//                else if (OPTION == 1) {
-//                    this.accountManagement.editProfile();
-//                }
+                else if (OPTION == 1) {
+                    //this.accountManagement.changeAccountInfo();
+                }
 
-//                else if (OPTION == 2) {
-//                    System.out.println("Digite o nome de usuário que quer enviar o convite");
-//                    String friendToInvite = scanner.next();
-//                    this.userFriends.sendRequestToAUser(friendToInvite);
-//                }
+                else if (OPTION == 2) {
+                    userFriends.sendRequestToAUser();
+                }
 //
-//                else if (OPTION == 3) {
-//                    this.userFriends.showFriendRequests();
-//                }
+                else if (OPTION == 3) {
+                    userFriends.showFriendRequests();
+                }
 //
 //                else if (OPTION == 4) {
 //                    this.userFriends.showFriendList();
@@ -79,9 +80,11 @@ public class CLI {
 //                    community.enterInCommunity();
 //                }
 //
-//                else if (OPTION == 8) {
-//                    this.message.sendMessage();
-//                }
+                else if (OPTION == 8) {
+                    message = new Message("baldoino", "opa",
+                            "claudemir", "f");
+                    message.sendMessage(message);
+                }
 //
 //                else if (OPTION == 9) {
 //                    this.message.showMessages();
