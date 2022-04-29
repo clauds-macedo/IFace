@@ -1,18 +1,23 @@
 import java.util.*;
 
 public class UserFriends {
-    static Map<String, ArrayList<String>> FRIENDLIST, FRIENDREQUESTS;
+
+    public static Map<String, ArrayList<String>> FRIENDLIST;
+    public static Map<String, ArrayList<String>> FRIENDREQUESTS;
+
     Database database = new Database();
     AccountManagement accountManagement = new AccountManagement();
+
     Scanner scanner = new Scanner(System.in).useDelimiter("\\n");
+
     UserFriends(){
         this.FRIENDLIST = new HashMap<String, ArrayList<String>>();
         this.FRIENDREQUESTS = new HashMap<String, ArrayList<String>>();
     }
 
-    void sendRequestToAUser(){
+    void sendRequestToAUser(String userToSendInvite){
         System.out.println("Digite o nome de usuário que quer enviar o convite");
-        String userToSendInvite = scanner.next();
+        //String userToSendInvite = scanner.next();
         if (!this.database.checkAccountExistence(userToSendInvite)){
             return;
         }
@@ -79,10 +84,12 @@ public class UserFriends {
         System.out.println("=======================\n");
     }
 
-    boolean isYourFriend(String friend_name) {
+    boolean isYourFriend(String friendName) {
+        System.out.println(FRIENDREQUESTS);
+        System.out.println(FRIENDLIST);
         if (this.FRIENDLIST.isEmpty()) return false;
         if (this.FRIENDLIST.get(this.accountManagement.getLoggedInUser()) == null) return false;
-        if (this.FRIENDLIST.get(this.accountManagement.getLoggedInUser()).contains(friend_name)) return true;
+        if (this.FRIENDLIST.get(this.accountManagement.getLoggedInUser()).contains(friendName)) return true;
         return false;
     }
 

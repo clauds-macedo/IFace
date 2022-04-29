@@ -3,11 +3,14 @@ import java.util.*;
 public class Community {
 
     static Map<String, ArrayList<String>> COMMUNITIES;
+
     AccountManagement accountManagement;
     Database database;
+
     Scanner scanner = new Scanner(System.in).useDelimiter("\\n");
 
     private String communityName, communityDescription;
+
     public Community(String communityName, String communityDescription) {
         this.communityName = communityName;
         this.communityDescription = communityDescription;

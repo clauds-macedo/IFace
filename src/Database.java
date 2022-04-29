@@ -16,6 +16,10 @@ public class Database {
         this.usersDatabase.get(userInfo.username).add(userInfo.nickname);
     }
 
+    public void insertUseOnFriendRequests() {
+
+    }
+
     public void showUserDatabase(){
         System.out.println(this.usersDatabase.keySet());
     }

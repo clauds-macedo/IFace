@@ -7,12 +7,11 @@ public class AccountManagement extends Database {
         return loggedInUser;
     }
 
-    public boolean login(){
-        System.out.println("Digite seu login: ");
-        String username = scanner.next();
-
-        System.out.println("Digite sua senha: ");
-        String password = scanner.next();
+    public boolean login(String username, String password){
+//        String username = scanner.next();
+//        System.out.println("Senha:");
+//        String password = scanner.next();
+//        System.out.println("Login:");
         if (!checkAccountExistence(username) || !compareWithUserDatabase(username, password)) {
             System.out.println("Usuário ou senha inválidos.");
             return false;

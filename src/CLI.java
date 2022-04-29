@@ -7,6 +7,18 @@ public class CLI {
     UserFriends userFriends = new UserFriends();
     boolean isLoggedIn = false;
     public void showCLI() {
+        accountManagement.register("claudemir", "123", "clauds");
+        accountManagement.register("baldoino", "123", "clauds");
+        accountManagement.register("marciao", "123", "clauds");
+        if (accountManagement.login("claudemir", "123")) {
+            isLoggedIn = true;
+            userFriends.sendRequestToAUser("baldoino");
+        }
+        isLoggedIn = false;
+        if (accountManagement.login("baldoino", "123")) {
+            isLoggedIn = true;
+            userFriends.sendRequestToAUser("claudemir");
+        }
         while (true) {
             if (!isLoggedIn) {
                 System.out.println("1: Registrar\n" +
@@ -22,9 +34,9 @@ public class CLI {
                     accountManagement.register("marciao", "123", "clauds");
                 }
                 else if (OPTION == 2) {
-                    if (accountManagement.login()){
-                        isLoggedIn = true;
-                    }
+//                    if (accountManagement.login()){
+//                        isLoggedIn = true;
+//                    }
                 }
             }
             else {
@@ -38,7 +50,7 @@ public class CLI {
                         + "5: Criar comunidade\n"
                         + "6: Ver lista de comunidades\n"
                         + "7: Entrar em uma comunidade\n"
-                        + "8: Enviar mensagem\n"
+                        + "8: Enviar mensagem para um amigo\n"
                         + "9: Ver caixa de entrada\n"
                         + "10: Ver feed de notícias\n"
                         + "11: Adicionar postagem ao feed\n"
@@ -57,16 +69,16 @@ public class CLI {
                 }
 
                 else if (OPTION == 2) {
-                    userFriends.sendRequestToAUser();
+                    //userFriends.sendRequestToAUser();
                 }
 //
                 else if (OPTION == 3) {
                     userFriends.showFriendRequests();
                 }
-//
-//                else if (OPTION == 4) {
-//                    this.userFriends.showFriendList();
-//                }
+
+                else if (OPTION == 4) {
+                    this.userFriends.showFriendList();
+                }
 //
 //                else if (OPTION == 5) {
 //                    community.create_community();
@@ -81,11 +93,11 @@ public class CLI {
 //                }
 //
                 else if (OPTION == 8) {
-                    message = new Message("baldoino", "opa",
-                            "claudemir", "f");
-                    message.sendMessage(message);
+                    new Inbox("claudemir",
+                            "baldoino",
+                            "dale irmao").sendMessage();
+
                 }
-//
 //                else if (OPTION == 9) {
 //                    this.message.showMessages();
 //                }
