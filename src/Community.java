@@ -2,34 +2,28 @@ import java.util.*;
 
 public class Community {
 
-    static Map<String, ArrayList<String>> COMMUNITIES;
-
-    AccountManagement accountManagement;
-    Database database;
+    static Map<String, ArrayList<String>> COMMUNITIES = new HashMap<String, ArrayList<String>>();;
+    AccountManagement accountManagement = new AccountManagement();
 
     Scanner scanner = new Scanner(System.in).useDelimiter("\\n");
 
     private String communityName, communityDescription;
 
+    public Community(){}
     public Community(String communityName, String communityDescription) {
         this.communityName = communityName;
         this.communityDescription = communityDescription;
-        this.COMMUNITIES = new HashMap<String, ArrayList<String>>();
-        this.accountManagement = new AccountManagement();
     }
 
-    void createCommunity() {
-        if (this.COMMUNITIES.containsKey(this.communityName)) {
+    void insertCommunityOnList(Community newCommunity) {
+        if (COMMUNITIES.containsKey(newCommunity.communityName)) {
             System.out.println("Essa comunidade já existe!");
             return;
         }
 
-        System.out.println("Digite a descrição da comunidade que deseja criar.");
-        String description = this.scanner.useDelimiter("\\n").next();
-
-        this.COMMUNITIES.put(this.communityName, new ArrayList<String>());
-        this.COMMUNITIES.get(this.communityName).add(this.accountManagement.getLoggedInUser()); //dono vai sempre estar na pos. 0 do array de membros
-        this.COMMUNITIES.get(this.communityName).add(description);
+        COMMUNITIES.put(newCommunity.communityName, new ArrayList<String>());
+        COMMUNITIES.get(newCommunity.communityName).add(accountManagement.getLoggedInUser()); //dono vai sempre estar na pos. 0 do array de membros
+        COMMUNITIES.get(newCommunity.communityName).add(newCommunity.communityDescription);
 
         System.out.println("Comunidade criada!");
         return;
@@ -61,20 +55,21 @@ public class Community {
         }
     }
 
-    void enterInCommunity(){
+    void enterInCommunity() {
+        System.out.println("Digite o nome da comunidade na qual deseja entrar: ");
         String community_name = scanner.useDelimiter("\\n").next();
-        if (this.COMMUNITIES.isEmpty()) return;
-        else if (!this.COMMUNITIES.containsKey(community_name)) return;
+        if (COMMUNITIES.isEmpty()) return;
+        else if (!COMMUNITIES.containsKey(community_name)) {
+            System.out.println("A comunidade não existe.");
+            return;
+        }
 
-        if (this.COMMUNITIES.get(community_name).contains(this.accountManagement.getLoggedInUser())) {
+        if (COMMUNITIES.get(community_name).contains(this.accountManagement.getLoggedInUser())) {
             System.out.println("Você já está nessa comunidade.");
             return;
         }
 
-        this.COMMUNITIES.get(community_name).add(this.accountManagement.getLoggedInUser());
-        System.out.println("Entrou na comunidade " + community_name + "com sucesso! \n");
+        COMMUNITIES.get(community_name).add(this.accountManagement.getLoggedInUser());
+        System.out.println("Entrou na comunidade " + community_name + " com sucesso! \n");
     }
-
-
-
 }

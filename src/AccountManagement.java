@@ -7,11 +7,11 @@ public class AccountManagement extends Database {
         return loggedInUser;
     }
 
-    public boolean login(String username, String password){
-//        String username = scanner.next();
-//        System.out.println("Senha:");
-//        String password = scanner.next();
-//        System.out.println("Login:");
+    public boolean login(){
+        String username = scanner.next();
+        System.out.println("Senha:");
+        String password = scanner.next();
+        System.out.println("Login:");
         if (!checkAccountExistence(username) || !compareWithUserDatabase(username, password)) {
             System.out.println("Usuário ou senha inválidos.");
             return false;
@@ -26,7 +26,15 @@ public class AccountManagement extends Database {
         return false;
     }
 
-    void register(String login, String password, String nickname) {
+    void register() {
+        System.out.println("Digite o login");
+        String login = scanner.next();
+
+        System.out.println("Digite a senha");
+        String password = scanner.next();
+
+        System.out.println("Digite o apelido");
+        String nickname = scanner.next();
         if (checkAccountExistence(login)) {
             System.out.println("O usuário já existe no banco de dados.");
             return;
@@ -34,5 +42,4 @@ public class AccountManagement extends Database {
         insertUserOnDatabase(new User(login, password, nickname));
         System.out.println("Registrado com sucesso!");
     }
-
 }

@@ -15,10 +15,11 @@ public class UserFriends {
         this.FRIENDREQUESTS = new HashMap<String, ArrayList<String>>();
     }
 
-    void sendRequestToAUser(String userToSendInvite){
+    void sendRequestToAUser(){
         System.out.println("Digite o nome de usuário que quer enviar o convite");
-        //String userToSendInvite = scanner.next();
-        if (!this.database.checkAccountExistence(userToSendInvite)){
+        String userToSendInvite = scanner.next();
+        if (!this.database.checkAccountExistence(userToSendInvite)) {
+            System.out.println("O usuário não existe no banco de dados.");
             return;
         }
         if (!this.FRIENDREQUESTS.containsKey(userToSendInvite)){
@@ -46,8 +47,12 @@ public class UserFriends {
                     this.FRIENDLIST.put(this.accountManagement.getLoggedInUser(), new ArrayList<String>());
                     this.FRIENDLIST.put(REQUEST, new ArrayList<String>());
                 }
-                this.FRIENDLIST.get(this.accountManagement.getLoggedInUser()).add(REQUEST);
-                this.FRIENDLIST.get(REQUEST).add(this.accountManagement.getLoggedInUser());
+                if (!this.FRIENDLIST.get(this.accountManagement.getLoggedInUser()).contains(REQUEST)) {
+                    this.FRIENDLIST.get(this.accountManagement.getLoggedInUser()).add(REQUEST);
+                }
+                if (!this.FRIENDLIST.get(REQUEST).contains(this.accountManagement.getLoggedInUser())) {
+                    this.FRIENDLIST.get(REQUEST).add(this.accountManagement.getLoggedInUser());
+                }
                 isAdded = true;
             }
         }
@@ -85,8 +90,6 @@ public class UserFriends {
     }
 
     boolean isYourFriend(String friendName) {
-        System.out.println(FRIENDREQUESTS);
-        System.out.println(FRIENDLIST);
         if (this.FRIENDLIST.isEmpty()) return false;
         if (this.FRIENDLIST.get(this.accountManagement.getLoggedInUser()) == null) return false;
         if (this.FRIENDLIST.get(this.accountManagement.getLoggedInUser()).contains(friendName)) return true;
