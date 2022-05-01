@@ -8,10 +8,11 @@ public class AccountManagement extends Database {
     }
 
     public boolean login(){
+        System.out.println("Login:");
         String username = scanner.next();
+
         System.out.println("Senha:");
         String password = scanner.next();
-        System.out.println("Login:");
         if (!checkAccountExistence(username) || !compareWithUserDatabase(username, password)) {
             System.out.println("Usuário ou senha inválidos.");
             return false;
