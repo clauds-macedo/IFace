@@ -159,7 +159,10 @@ public class CLI {
                 "f - Postar para amigos\n" +
                 "p - Postar em modo público");
         String postVisibility = scanner.next();
-
+        if (!postVisibility.equals("p") || !postVisibility.equals("f")) {
+            System.out.println("Opção inválida.");
+            return;
+        }
         user.postOnFeed(new Feed(messageContent,
                 accountManagement.getLoggedInUser(),
                 postVisibility.toLowerCase()));
