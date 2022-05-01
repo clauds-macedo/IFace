@@ -1,4 +1,5 @@
 import javax.xml.crypto.Data;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class CLI {
@@ -118,6 +119,12 @@ public class CLI {
                 else if (OPTION == 9) {
                     user.showMessages(accountManagement.getLoggedInUser(), userFriends);
                 }
+                else if (OPTION == 10) {
+                    user.showFeed(userFriends, accountManagement.getLoggedInUser());
+                }
+                else if (OPTION == 11) {
+                    DataForPostOnFeed();
+                }
            }
         }
     }
@@ -143,5 +150,18 @@ public class CLI {
         String messageContent = scanner.next();
         user.sendMessage(new Inbox(addressee, accountManagement.getLoggedInUser(), messageContent));
         System.out.println("Mensagem enviada com sucesso.");
+    }
+    public void DataForPostOnFeed() {
+        System.out.println("No que está pensando?");
+        String messageContent = scanner.next();
+
+        System.out.println("Selecione uma opção: \n" +
+                "f - Postar para amigos\n" +
+                "p - Postar em modo público");
+        String postVisibility = scanner.next();
+
+        user.postOnFeed(new Feed(messageContent,
+                accountManagement.getLoggedInUser(),
+                postVisibility.toLowerCase()));
     }
 }

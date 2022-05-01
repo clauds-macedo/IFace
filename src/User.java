@@ -3,7 +3,10 @@ import java.util.*;
 public class User {
 
     public String username, password, nickname;
+
     ArrayList<Inbox> UserInbox = new ArrayList<>();
+    ArrayList<Feed> UserFeed = new ArrayList<>();
+
     Scanner scanner = new Scanner(System.in).useDelimiter("\\n");
     public User(){}
 
@@ -15,7 +18,6 @@ public class User {
 
     public void sendMessage(Inbox msg) {
         UserInbox.add(msg);
-        System.out.println(UserInbox);
     }
 
     public void showMessages(String username, UserFriends userFriends) {
@@ -42,5 +44,22 @@ public class User {
     }
     public void seeInbox(UserFriends userFriends) {
         userFriends.showFriendList();
+    }
+
+    public void postOnFeed(Feed post) {
+        UserFeed.add(post);
+    }
+    public void showFeed(UserFriends userFriends, String loggedInUser) {
+        for (Feed post : UserFeed) {
+            if (post.getVisibility().equals("f")) {
+                if (userFriends.isYourFriend(post.getPostOwner())
+                    || post.getPostOwner() == loggedInUser) {
+                    System.out.println(post);
+                }
+            }
+            else if (post.getVisibility().equals("p")) {
+                System.out.println(post);
+            }
+        }
     }
 }
