@@ -75,8 +75,7 @@ public class CLI {
                         + "9: Ver caixa de entrada\n"
                         + "10: Ver feed de notícias\n"
                         + "11: Adicionar postagem ao feed\n"
-                        + "12: Alterar dados da conta\n"
-                        + "13: Remover sua conta\n"
+                        + "12: Remover sua conta\n"
                         + "999: Logout");
 
                 int OPTION = scanner.nextInt();
@@ -86,7 +85,7 @@ public class CLI {
                 }
 
                 else if (OPTION == 1) {
-                    //this.accountManagement.changeAccountInfo();
+                    accountManagement.dataForChangingAccountInfo();
                 }
 
                 else if (OPTION == 2) {
@@ -100,9 +99,9 @@ public class CLI {
                 else if (OPTION == 4) {
                     this.userFriends.showFriendList();
                 }
-//
+
                 else if (OPTION == 5) {
-                    DataForCommunityCreation();
+                    community.dataForCommunityCreation();
                 }
 
                 else if (OPTION == 6) {
@@ -114,7 +113,7 @@ public class CLI {
                 }
 
                 else if (OPTION == 8) {
-                    DataForSendingMessages();
+                    user.dataForSendingMessages(userFriends, accountManagement.getLoggedInUser());
                 }
                 else if (OPTION == 9) {
                     user.showMessages(accountManagement.getLoggedInUser(), userFriends);
@@ -123,51 +122,14 @@ public class CLI {
                     user.showFeed(userFriends, accountManagement.getLoggedInUser());
                 }
                 else if (OPTION == 11) {
-                    DataForPostOnFeed();
+                    user.dataForPostOnFeed(accountManagement.getLoggedInUser());
                 }
-                else if (OPTION == 13) {
-
+                else if (OPTION == 12) {
+                    accountManagement.
+                            deleteUserInfo(accountManagement.getLoggedInUser(), userFriends, user);
+                    isLoggedIn = false;
                 }
            }
         }
-    }
-
-    void DataForCommunityCreation() {
-        System.out.println("Digite o nome da comunidade que deseja criar");
-        String communityName = scanner.next();
-
-        System.out.println("Digite a descrição da comunidade que deseja criar");
-        String communityDescription = scanner.next();
-
-        community.insertCommunityOnList(new Community(communityName, communityDescription));
-    }
-
-    void DataForSendingMessages() {
-        System.out.println("Pra quem deseja enviar a mensagem?");
-        String addressee = scanner.next();
-        if (!userFriends.isYourFriend(addressee)) {
-            System.out.println("O usuário não está na sua lista de amigos.");
-            return;
-        }
-        System.out.println("Digite o que deseja enviar.");
-        String messageContent = scanner.next();
-        user.sendMessage(new Inbox(addressee, accountManagement.getLoggedInUser(), messageContent));
-        System.out.println("Mensagem enviada com sucesso.");
-    }
-    public void DataForPostOnFeed() {
-        System.out.println("No que está pensando?");
-        String messageContent = scanner.next();
-
-        System.out.println("Selecione uma opção: \n" +
-                "f - Postar para amigos\n" +
-                "p - Postar em modo público");
-        String postVisibility = scanner.next();
-        if (!(postVisibility.equals("p") || postVisibility.equals("f"))) {
-            System.out.println("Opção inválida.");
-            return;
-        }
-        user.postOnFeed(new Feed(messageContent,
-                accountManagement.getLoggedInUser(),
-                postVisibility.toLowerCase()));
     }
 }

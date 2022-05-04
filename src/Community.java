@@ -55,6 +55,16 @@ public class Community {
         }
     }
 
+    void dataForCommunityCreation() {
+        System.out.println("Digite o nome da comunidade que deseja criar");
+        String communityName = scanner.next();
+
+        System.out.println("Digite a descrição da comunidade que deseja criar");
+        String communityDescription = scanner.next();
+
+        insertCommunityOnList(new Community(communityName, communityDescription));
+    }
+
     void enterInCommunity() {
         System.out.println("Digite o nome da comunidade na qual deseja entrar: ");
         String community_name = scanner.useDelimiter("\\n").next();

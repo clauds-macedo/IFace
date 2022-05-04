@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class AccountManagement extends Database {
@@ -42,5 +43,50 @@ public class AccountManagement extends Database {
         }
         insertUserOnDatabase(new User(login, password, nickname));
         System.out.println("Registrado com sucesso!");
+    }
+
+    public void dataForChangingAccountInfo() {
+        System.out.println("O que deseja mudar?\n"
+                + "1: Senha\n"
+                + "2: Apelido\n");
+        int toChange = scanner.nextInt();
+        if (toChange < 0 && toChange > 3) {
+            System.out.println("Opção invalida.");
+            return;
+        }
+        System.out.println("Digite o novo dado");
+        String newData = scanner.next();
+        changeAccountInfo(loggedInUser,
+                toChange,
+                newData);
+    }
+
+    public void changeAccountInfo(String username, int index, String newInfo){
+        String[] newUserData = {usersDatabase.get(username).get(0),
+                usersDatabase.get(username).get(1)};
+        newUserData[index - 1] = newInfo;
+
+        ArrayList<String> wrapNewData = new ArrayList<>();
+
+        wrapNewData.add(newUserData[0]);
+        wrapNewData.add(newUserData[1]);
+
+        usersDatabase.put(username, wrapNewData);
+        System.out.println("Dado alterado com sucesso.");
+    }
+
+    public void deleteUserInfo(String loggedInUser, UserFriends userFriends, User user) {
+        System.out.println("Tem certeza que deseja excluir todos os seus dados?" +
+                "Essa ação é irreversível\n" +
+                "1 - Sim\n" +
+                "2 - Voltar");
+        String isSure = scanner.next();
+        if (!isSure.equals("1")) {
+            return;
+        }
+        usersDatabase.remove(loggedInUser);
+        userFriends.deleteYourFriendData();
+        user.deleteMessages(loggedInUser);
+        user.deletePostOnFeed(loggedInUser);
     }
 }

@@ -16,6 +16,19 @@ public class User {
         this.nickname = nickname;
     }
 
+    void dataForSendingMessages(UserFriends userFriends, String sender) {
+        System.out.println("Pra quem deseja enviar a mensagem?");
+        String addressee = scanner.next();
+        if (!userFriends.isYourFriend(addressee)) {
+            System.out.println("O usuário não está na sua lista de amigos.");
+            return;
+        }
+        System.out.println("Digite o que deseja enviar.");
+        String messageContent = scanner.next();
+        sendMessage(new Inbox(addressee, sender, messageContent));
+        System.out.println("Mensagem enviada com sucesso.");
+    }
+
     public void sendMessage(Inbox msg) {
         UserInbox.add(msg);
     }
@@ -53,6 +66,22 @@ public class User {
         userFriends.showFriendList();
     }
 
+    public void dataForPostOnFeed(String sender) {
+        System.out.println("No que está pensando?");
+        String messageContent = scanner.next();
+
+        System.out.println("Selecione uma opção: \n" +
+                "f - Postar para amigos\n" +
+                "p - Postar em modo público");
+        String postVisibility = scanner.next();
+        if (!(postVisibility.equals("p") || postVisibility.equals("f"))) {
+            System.out.println("Opção inválida.");
+            return;
+        }
+        postOnFeed(new Feed(messageContent,
+                sender,
+                postVisibility.toLowerCase()));
+    }
     public void postOnFeed(Feed post) {
         UserFeed.add(post);
     }
@@ -66,6 +95,26 @@ public class User {
             }
             else if (post.getVisibility().equals("p")) {
                 System.out.println(post);
+            }
+        }
+    }
+    void deleteMessages(String loggedInUser) {
+        Iterator<Inbox> message = UserInbox.iterator();
+        while (message.hasNext()) {
+            Inbox currentMessage = message.next();
+            if (currentMessage.getSender().equals(loggedInUser)
+                    ||
+                    currentMessage.getAddressee().equals(loggedInUser)) {
+                message.remove();
+            }
+        }
+    }
+    void deletePostOnFeed(String loggedInUser) {
+        Iterator<Feed> post = UserFeed.iterator();
+        while (post.hasNext()) {
+            Feed currentPost = post.next();
+            if (currentPost.getSender().equals(loggedInUser)) {
+                post.remove();
             }
         }
     }
