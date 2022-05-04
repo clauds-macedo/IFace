@@ -13,5 +13,6 @@ public abstract class Message {
     public String toString() {
         return  sender + ": " + messageContent;
     }
+    public String getSender() { return this.sender; }
 
 }

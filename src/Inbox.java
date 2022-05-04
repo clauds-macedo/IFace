@@ -15,4 +15,6 @@ public class Inbox extends Message {
                 + " - Para: " + addressee
                 + "\n";
     }
+
+    public String getAddressee() { return addressee; }
 }

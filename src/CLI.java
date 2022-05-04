@@ -125,6 +125,9 @@ public class CLI {
                 else if (OPTION == 11) {
                     DataForPostOnFeed();
                 }
+                else if (OPTION == 13) {
+
+                }
            }
         }
     }
@@ -159,7 +162,7 @@ public class CLI {
                 "f - Postar para amigos\n" +
                 "p - Postar em modo público");
         String postVisibility = scanner.next();
-        if (!postVisibility.equals("p") || !postVisibility.equals("f")) {
+        if (!(postVisibility.equals("p") || postVisibility.equals("f"))) {
             System.out.println("Opção inválida.");
             return;
         }

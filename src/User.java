@@ -34,8 +34,15 @@ public class User {
         }
         Boolean userHasMessagesWithYou = false;
         for (Inbox message : UserInbox) {
-            if (message.toString().contains(username)
-                && message.toString().contains(friendToSeeInbox)) {
+            if (
+                    message.getSender().equals(username)
+                                    &&
+                    message.getAddressee().equals(friendToSeeInbox)
+                                    ||
+                    message.getAddressee().equals(username)
+                                    &&
+                    message.getSender().equals(friendToSeeInbox)
+            ) {
                 userHasMessagesWithYou = true;
                 System.out.println(message);
             }
@@ -52,8 +59,8 @@ public class User {
     public void showFeed(UserFriends userFriends, String loggedInUser) {
         for (Feed post : UserFeed) {
             if (post.getVisibility().equals("f")) {
-                if (userFriends.isYourFriend(post.getPostOwner())
-                    || post.getPostOwner() == loggedInUser) {
+                if (userFriends.isYourFriend(post.getSender())
+                    || post.getSender().equals(loggedInUser)) {
                     System.out.println(post);
                 }
             }
