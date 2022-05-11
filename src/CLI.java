@@ -111,7 +111,7 @@ public class CLI {
                 }
                 else if (OPTION == 12) {
                     database.
-                            deleteUserInfo(accountManagement.getLoggedInUser(), userFriends, user);
+                            deleteUserInfo(accountManagement.getLoggedInUser(), userFriends, user, community);
                     isLoggedIn = false;
                 }
            }

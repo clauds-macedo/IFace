@@ -28,7 +28,10 @@ public class Database {
         return (usersDatabase.get(userLogin).get(0).equals(userPassword));
     }
 
-    public void deleteUserInfo(String loggedInUser, UserFriends userFriends, User user) {
+    public void deleteUserInfo(String loggedInUser,
+                               UserFriends userFriends,
+                               User user,
+                               Community community) {
         System.out.println("Tem certeza que deseja excluir todos os seus dados?" +
                 "Essa ação é irreversível\n" +
                 "1 - Sim\n" +
@@ -41,6 +44,7 @@ public class Database {
         userFriends.deleteYourFriendData();
         user.deleteMessages(loggedInUser);
         user.deletePostOnFeed(loggedInUser);
+        community.deleteCommunities(loggedInUser);
     }
 
 }

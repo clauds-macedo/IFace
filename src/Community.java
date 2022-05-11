@@ -46,4 +46,14 @@ public class Community {
         }
         CommunityMembers.get(communityName).add(user);
     }
+
+    public void deleteCommunities(String communityOwner) {
+        Iterator<Community> community = CommunityList.iterator();
+        while (community.hasNext()) {
+            Community currentCommunity = community.next();
+            if (currentCommunity.communityOwner.equals(communityOwner)) {
+                community.remove();
+            }
+        }
+    }
 }
