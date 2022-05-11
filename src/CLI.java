@@ -1,5 +1,3 @@
-import javax.xml.crypto.Data;
-import java.util.Locale;
 import java.util.Scanner;
 
 public class CLI {
@@ -16,29 +14,7 @@ public class CLI {
         database.insertUserOnDatabase(new User("claudemir", "123", "1"));
         database.insertUserOnDatabase(new User("meteu", "essa", "1"));
         database.insertUserOnDatabase(new User("baldoino", "123", "1"));
-//        if (accountManagement.login("claudemir", "123")) {
-//            isLoggedIn = true;
-//            userFriends.sendRequestToAUser("baldoino");
-//        }
-//        isLoggedIn = false;
-//        if (accountManagement.login("baldoino", "123")) {
-//            isLoggedIn = true;
-//            userFriends.sendRequestToAUser("claudemir");
-//            userFriends.sendRequestToAUser("marciao");
-//        }
-//        user.sendMessage(new Inbox("baldoino", "claudemir", "aaaa"));
-//        isLoggedIn = false;
-//        if (accountManagement.login("baldoino", "123")) {
-//            isLoggedIn = true;
-//            user.sendMessage(new Inbox("baldoino", "claudemir", "aaaa"));
-//        }
-//        isLoggedIn = false;
-//        if (accountManagement.login("marciao", "123")) {
-//            isLoggedIn = true;
-//            userFriends.sendRequestToAUser("baldoino");
-//            user.sendMessage(new Inbox("baldoino", "marcio", "hauidh"));
-//        }
-//        user.showMessages("marciao", userFriends);
+
         while (true) {
             if (!isLoggedIn) {
                 System.out.println("1: Registrar\n" +
@@ -101,15 +77,24 @@ public class CLI {
                 }
 
                 else if (OPTION == 5) {
-                    community.dataForCommunityCreation();
+                    System.out.println("Digite o nome da comunidade que deseja criar");
+                    String communityName = scanner.next();
+
+                    System.out.println("Digite a descrição da comunidade que deseja criar");
+                    String communityDescription = scanner.next();
+
+                    community.addCommunity(
+                            communityName,
+                            communityDescription,
+                            accountManagement.getLoggedInUser());
                 }
 
                 else if (OPTION == 6) {
-                    community.showCommunities();
+                    community.showCommunity();
                 }
 
                 else if (OPTION == 7) {
-                    community.enterInCommunity();
+                    community.addMember(accountManagement.getLoggedInUser());
                 }
 
                 else if (OPTION == 8) {
@@ -125,7 +110,7 @@ public class CLI {
                     user.dataForPostOnFeed(accountManagement.getLoggedInUser());
                 }
                 else if (OPTION == 12) {
-                    accountManagement.
+                    database.
                             deleteUserInfo(accountManagement.getLoggedInUser(), userFriends, user);
                     isLoggedIn = false;
                 }

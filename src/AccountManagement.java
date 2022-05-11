@@ -74,19 +74,4 @@ public class AccountManagement extends Database {
         usersDatabase.put(username, wrapNewData);
         System.out.println("Dado alterado com sucesso.");
     }
-
-    public void deleteUserInfo(String loggedInUser, UserFriends userFriends, User user) {
-        System.out.println("Tem certeza que deseja excluir todos os seus dados?" +
-                "Essa ação é irreversível\n" +
-                "1 - Sim\n" +
-                "2 - Voltar");
-        String isSure = scanner.next();
-        if (!isSure.equals("1")) {
-            return;
-        }
-        usersDatabase.remove(loggedInUser);
-        userFriends.deleteYourFriendData();
-        user.deleteMessages(loggedInUser);
-        user.deletePostOnFeed(loggedInUser);
-    }
 }
