@@ -2,7 +2,7 @@ import java.util.*;
 
 public class Community {
 
-    static Map<String, ArrayList<String>> CommunityMembers = new HashMap<>();
+    Map<String, ArrayList<String>> CommunityMembers = new HashMap<>();
     ArrayList<Community> CommunityList = new ArrayList<>();
 
     Scanner scanner = new Scanner(System.in).useDelimiter("\\n");
@@ -40,6 +40,10 @@ public class Community {
     public void addMember(String user) {
         System.out.println("Digite o nome da comunidade na qual deseja entrar");
         String communityName = scanner.next();
+        if (CommunityMembers.get(communityName).contains(user)) {
+            System.out.println("Você já está nessa comunidade");
+            return;
+        }
         CommunityMembers.get(communityName).add(user);
     }
 }
