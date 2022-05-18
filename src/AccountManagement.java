@@ -46,26 +46,30 @@ public class AccountManagement extends Database {
         System.out.println("Registrado com sucesso!");
     }
 
-    public void dataForChangingAccountInfo() {
+    public void selectOptionForChangingAccountInfo() {
         System.out.println("O que deseja mudar?\n"
                 + "1: Senha\n"
                 + "2: Apelido\n");
+        int toChange;
         try {
-            int toChange = scanner.nextInt();
-            if (toChange < 0 && toChange > 3) {
-                System.out.println("Opção invalida.");
-                return;
-            }
+            toChange = scanner.nextInt();
+            typeNewInfo(toChange);
+        } catch (InputMismatchException e) {
+            System.out.println("Input invalido. Digite um numero, nao um caractere.");
+            scanner.next();
+        }
+    }
+
+    public void typeNewInfo(int toChange) {
+        try {
             System.out.println("Digite o novo dado");
             String newData = scanner.next();
             changeAccountInfo(loggedInUser,
                     toChange,
                     newData);
-        } catch (InputMismatchException e) {
-            System.out.println("Input invalido. Digite um numero, nao um caractere.");
-            scanner.next();
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Opcao invalida. Selecione entre 1 ou 2.");
         }
-
     }
 
     public void changeAccountInfo(String username, int index, String newInfo){

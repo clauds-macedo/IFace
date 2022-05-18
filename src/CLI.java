@@ -68,7 +68,7 @@ public class CLI {
                 }
 
                 else if (OPTION == 1) {
-                    accountManagement.dataForChangingAccountInfo();
+                    accountManagement.selectOptionForChangingAccountInfo();
                 }
 
                 else if (OPTION == 2) {
