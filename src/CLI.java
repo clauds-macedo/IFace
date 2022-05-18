@@ -1,3 +1,4 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class CLI {
@@ -14,26 +15,32 @@ public class CLI {
         database.insertUserOnDatabase(new User("claudemir", "123", "1"));
         database.insertUserOnDatabase(new User("meteu", "essa", "1"));
         database.insertUserOnDatabase(new User("baldoino", "123", "1"));
-
+        boolean isInputValid = false;
         while (true) {
             if (!isLoggedIn) {
                 System.out.println("1: Registrar\n" +
                         "2: Logar\n" +
                         "3: Database");
-                int OPTION = scanner.nextInt();
-                if (OPTION == 999) {
-                    break;
-                }
-                else if (OPTION == 1) {
-                    accountManagement.register();
-                }
-                else if (OPTION == 2) {
-                    if (accountManagement.login()){
-                        isLoggedIn = true;
+                try {
+                    int OPTION = scanner.nextInt();
+                    if (OPTION == 999) {
+                        break;
+                    }
+                    else if (OPTION == 1) {
+                        accountManagement.register();
+                    }
+                    else if (OPTION == 2) {
+                        if (accountManagement.login()){
+                            isLoggedIn = true;
+                        }
+                    }
+                    else if (OPTION == 3) {
+                        database.showUserDatabase();
                     }
                 }
-                else if (OPTION == 3) {
-                    database.showUserDatabase();
+                catch (InputMismatchException e) {
+                    System.out.println("Input invalido. Digite um numero, nao um caractere. \nDigite novamente.");
+                    scanner.next();
                 }
             }
             else {
@@ -114,7 +121,7 @@ public class CLI {
                             deleteUserInfo(accountManagement.getLoggedInUser(), userFriends, user, community);
                     isLoggedIn = false;
                 }
-           }
+            }
         }
     }
 }
