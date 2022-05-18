@@ -90,10 +90,14 @@ public class CLI {
                     System.out.println("Digite a descrição da comunidade que deseja criar");
                     String communityDescription = scanner.next();
 
-                    community.addCommunity(
-                            communityName,
-                            communityDescription,
-                            accountManagement.getLoggedInUser());
+                    try {
+                        community.addCommunity(
+                                communityName,
+                                communityDescription,
+                                accountManagement.getLoggedInUser());
+                    } catch (CommunityException e) {
+                        System.out.println(e.getMessage());
+                    }
                 }
 
                 else if (OPTION == 6) {
@@ -101,7 +105,12 @@ public class CLI {
                 }
 
                 else if (OPTION == 7) {
-                    community.addMember(accountManagement.getLoggedInUser());
+                    try {
+                        community.addMember(accountManagement.getLoggedInUser());
+                    }
+                    catch (CommunityException e) {
+                        System.out.println(e.userIsMember());
+                    }
                 }
 
                 else if (OPTION == 8) {

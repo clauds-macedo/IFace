@@ -16,10 +16,9 @@ public class Community {
         this.communityOwner = communityOwner;
     }
 
-    public void addCommunity(String communityName, String communityDescription, String communityOwner) {
-        if (CommunityList.contains(communityName)) {
-            System.out.println("A comunidade já existe.");
-            return;
+    public void addCommunity(String communityName, String communityDescription, String communityOwner) throws CommunityException {
+        if (CommunityMembers.containsKey(communityName)) {
+            throw new CommunityException();
         }
         CommunityList.add(new Community(communityName, communityDescription, communityOwner));
         CommunityMembers.put(communityName, new ArrayList<>());
@@ -37,12 +36,11 @@ public class Community {
         }
     }
 
-    public void addMember(String user) {
+    public void addMember(String user) throws CommunityException {
         System.out.println("Digite o nome da comunidade na qual deseja entrar");
         String communityName = scanner.next();
         if (CommunityMembers.get(communityName).contains(user)) {
-            System.out.println("Você já está nessa comunidade");
-            return;
+            throw new CommunityException();
         }
         CommunityMembers.get(communityName).add(user);
     }
