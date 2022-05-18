@@ -16,12 +16,11 @@ public class User {
         this.nickname = nickname;
     }
 
-    void dataForSendingMessages(UserFriends userFriends, String sender) {
+    void dataForSendingMessages(UserFriends userFriends, String sender) throws FriendsException{
         System.out.println("Pra quem deseja enviar a mensagem?");
         String addressee = scanner.next();
         if (!userFriends.isYourFriend(addressee)) {
-            System.out.println("O usuário não está na sua lista de amigos.");
-            return;
+            throw new FriendsException();
         }
         System.out.println("Digite o que deseja enviar.");
         String messageContent = scanner.next();
@@ -33,7 +32,7 @@ public class User {
         UserInbox.add(msg);
     }
 
-    public void showMessages(String username, UserFriends userFriends) {
+    public void showMessages(String username, UserFriends userFriends) throws FriendsException {
         if (userFriends.isFriendlistEmpty()) {
             System.out.println("Sua lista de amigos está vazia.");
             return;
@@ -42,8 +41,7 @@ public class User {
         seeInbox(userFriends);
         String friendToSeeInbox = scanner.next();
         if(!userFriends.isYourFriend(friendToSeeInbox)) {
-            System.out.println("O usuário não é seu amigo.");
-            return;
+            throw new FriendsException();
         }
         Boolean userHasMessagesWithYou = false;
         for (Inbox message : UserInbox) {

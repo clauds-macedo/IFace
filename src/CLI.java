@@ -114,10 +114,18 @@ public class CLI {
                 }
 
                 else if (OPTION == 8) {
-                    user.dataForSendingMessages(userFriends, accountManagement.getLoggedInUser());
+                    try {
+                        user.dataForSendingMessages(userFriends, accountManagement.getLoggedInUser());
+                    } catch(FriendsException e) {
+                        System.out.println(e.userIsNotYourFriend());
+                    }
                 }
                 else if (OPTION == 9) {
-                    user.showMessages(accountManagement.getLoggedInUser(), userFriends);
+                    try {
+                        user.showMessages(accountManagement.getLoggedInUser(), userFriends);
+                    } catch(FriendsException e) {
+                        System.out.println(e.emptyFriendlist());
+                    }
                 }
                 else if (OPTION == 10) {
                     user.showFeed(userFriends, accountManagement.getLoggedInUser());
