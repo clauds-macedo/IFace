@@ -64,7 +64,7 @@ public class User {
         userFriends.showFriendList();
     }
 
-    public void dataForPostOnFeed(String sender) {
+    public void dataForPostOnFeed(String sender) throws FeedException {
         System.out.println("No que está pensando?");
         String messageContent = scanner.next();
 
@@ -73,8 +73,7 @@ public class User {
                 "p - Postar em modo público");
         String postVisibility = scanner.next();
         if (!(postVisibility.equals("p") || postVisibility.equals("f"))) {
-            System.out.println("Opção inválida.");
-            return;
+            throw new FeedException();
         }
         postOnFeed(new Feed(messageContent,
                 sender,

@@ -131,7 +131,11 @@ public class CLI {
                     user.showFeed(userFriends, accountManagement.getLoggedInUser());
                 }
                 else if (OPTION == 11) {
-                    user.dataForPostOnFeed(accountManagement.getLoggedInUser());
+                    try {
+                        user.dataForPostOnFeed(accountManagement.getLoggedInUser());
+                    } catch(FeedException e) {
+                        System.out.println(e.invalidOption());
+                    }
                 }
                 else if (OPTION == 12) {
                     database.
