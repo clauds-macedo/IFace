@@ -15,12 +15,11 @@ public class UserFriends {
         this.FRIENDREQUESTS = new HashMap<String, ArrayList<String>>();
     }
 
-    void sendRequestToAUser(){
+    void sendRequestToAUser() throws AccountException {
         System.out.println("Digite o nome de usuário que quer enviar o convite");
         String userToSendInvite = scanner.next();
         if (!this.database.checkAccountExistence(userToSendInvite)) {
-            System.out.println("O usuário não existe no banco de dados.");
-            return;
+            throw new AccountException();
         }
         if (!this.FRIENDREQUESTS.containsKey(userToSendInvite)){
             this.FRIENDREQUESTS.put(userToSendInvite, new ArrayList<String>());
@@ -29,7 +28,6 @@ public class UserFriends {
             this.FRIENDREQUESTS.get(userToSendInvite).add(accountManagement.getLoggedInUser());
             System.out.println("Convite enviado.");
         }
-//        System.out.println(FRIENDREQUESTS);
         checkIfUsersAreFriends();
     }
 
@@ -42,19 +40,22 @@ public class UserFriends {
         boolean isAdded = false;
         while (REQUESTS.hasNext()) {
             String REQUEST = REQUESTS.next();
-            if (FRIENDREQUESTS.get(REQUEST) == null) return;
-            if (this.FRIENDREQUESTS.get(REQUEST).contains(this.accountManagement.getLoggedInUser())) {
-                if(!this.FRIENDLIST.containsKey(this.accountManagement.getLoggedInUser())) {
-                    this.FRIENDLIST.put(this.accountManagement.getLoggedInUser(), new ArrayList<String>());
-                    this.FRIENDLIST.put(REQUEST, new ArrayList<String>());
+            try {
+                if (this.FRIENDREQUESTS.get(REQUEST).contains(this.accountManagement.getLoggedInUser())) {
+                    if (!this.FRIENDLIST.containsKey(this.accountManagement.getLoggedInUser())) {
+                        this.FRIENDLIST.put(this.accountManagement.getLoggedInUser(), new ArrayList<String>());
+                        this.FRIENDLIST.put(REQUEST, new ArrayList<String>());
+                    }
+                    if (!this.FRIENDLIST.get(this.accountManagement.getLoggedInUser()).contains(REQUEST)) {
+                        this.FRIENDLIST.get(this.accountManagement.getLoggedInUser()).add(REQUEST);
+                    }
+                    if (!this.FRIENDLIST.get(REQUEST).contains(this.accountManagement.getLoggedInUser())) {
+                        this.FRIENDLIST.get(REQUEST).add(this.accountManagement.getLoggedInUser());
+                    }
+                    isAdded = true;
                 }
-                if (!this.FRIENDLIST.get(this.accountManagement.getLoggedInUser()).contains(REQUEST)) {
-                    this.FRIENDLIST.get(this.accountManagement.getLoggedInUser()).add(REQUEST);
-                }
-                if (!this.FRIENDLIST.get(REQUEST).contains(this.accountManagement.getLoggedInUser())) {
-                    this.FRIENDLIST.get(REQUEST).add(this.accountManagement.getLoggedInUser());
-                }
-                isAdded = true;
+            } catch(NullPointerException e) {
+                System.out.println("O usuário não existe.");
             }
         }
         if (isAdded) System.out.println("Amigo adicionado à sua lista de amigos.");

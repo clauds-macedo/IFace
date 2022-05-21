@@ -27,18 +27,25 @@ public class CLI {
                         break;
                     }
                     else if (OPTION == 1) {
-                        accountManagement.register();
+                        try {
+                            accountManagement.register();
+                        } catch(AccountException e) {
+                            System.out.println(e.getMessage());
+                        }
                     }
                     else if (OPTION == 2) {
-                        if (accountManagement.login()){
-                            isLoggedIn = true;
+                        try {
+                            if (accountManagement.login()) {
+                                isLoggedIn = true;
+                            }
+                        } catch(AccountException e) {
+                            System.out.println(e.accountDontExists());
                         }
                     }
                     else if (OPTION == 3) {
                         database.showUserDatabase();
                     }
-                }
-                catch (InputMismatchException e) {
+                } catch (InputMismatchException e) {
                     System.out.println("Input invalido. Digite um numero, nao um caractere. \nDigite novamente.");
                     scanner.next();
                 }
@@ -72,7 +79,11 @@ public class CLI {
                 }
 
                 else if (OPTION == 2) {
-                    userFriends.sendRequestToAUser();
+                    try {
+                        userFriends.sendRequestToAUser();
+                    } catch (AccountException e) {
+                        System.out.println(e.accountDontExists());
+                    }
                 }
 
                 else if (OPTION == 3) {

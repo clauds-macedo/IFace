@@ -9,15 +9,14 @@ public class AccountManagement extends Database {
         return loggedInUser;
     }
 
-    public boolean login(){
+    public boolean login() throws AccountException {
         System.out.println("Login:");
         String username = scanner.next();
 
         System.out.println("Senha:");
         String password = scanner.next();
         if (!checkAccountExistence(username) || !compareWithUserDatabase(username, password)) {
-            System.out.println("Usuário ou senha inválidos.");
-            return false;
+            throw new AccountException();
         }
 
         if (compareWithUserDatabase(username, password)) {
@@ -29,22 +28,31 @@ public class AccountManagement extends Database {
         return false;
     }
 
-    void register() {
+    void register() throws AccountException {
         System.out.println("Digite o login");
         String login = scanner.next();
+
+        if (loginContainsSpace(login)) throw new AccountException();
 
         System.out.println("Digite a senha");
         String password = scanner.next();
 
         System.out.println("Digite o apelido");
         String nickname = scanner.next();
+
         if (checkAccountExistence(login)) {
-            System.out.println("O usuário já existe no banco de dados.");
-            return;
+            throw new AccountException();
         }
+
         insertUserOnDatabase(new User(login, password, nickname));
         System.out.println("Registrado com sucesso!");
     }
+
+    boolean loginContainsSpace(String login) {
+        if (login.contains(" ")) return true;
+        return false;
+    }
+
 
     public void selectOptionForChangingAccountInfo() {
         System.out.println("O que deseja mudar?\n"

@@ -20,8 +20,11 @@ public class Database {
         System.out.println(this.usersDatabase.keySet());
     }
 
-    boolean checkAccountExistence(String user) {
-        return this.usersDatabase.containsKey(user);
+    boolean checkAccountExistence(String user) throws AccountException {
+        if (!this.usersDatabase.containsKey(user)) {
+            throw new AccountException();
+        }
+        return true;
     }
 
     boolean compareWithUserDatabase(String userLogin, String userPassword) {
