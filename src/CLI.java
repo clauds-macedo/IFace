@@ -145,7 +145,7 @@ public class CLI {
                     try {
                         user.dataForPostOnFeed(accountManagement.getLoggedInUser());
                     } catch(FeedException e) {
-                        System.out.println(e.invalidOption());
+                        System.out.println(e.getMessage());
                     }
                 }
                 else if (OPTION == 12) {

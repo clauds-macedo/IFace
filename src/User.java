@@ -68,12 +68,16 @@ public class User {
         System.out.println("No que está pensando?");
         String messageContent = scanner.next();
 
+        if (messageContent.isEmpty()) {
+            throw new FeedException("O corpo da mensagem não pode estar vazio.");
+        }
+
         System.out.println("Selecione uma opção: \n" +
                 "f - Postar para amigos\n" +
                 "p - Postar em modo público");
         String postVisibility = scanner.next();
         if (!(postVisibility.equals("p") || postVisibility.equals("f"))) {
-            throw new FeedException();
+            throw new FeedException("Opção inválida.");
         }
         postOnFeed(new Feed(messageContent,
                 sender,
