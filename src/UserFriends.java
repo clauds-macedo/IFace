@@ -62,33 +62,32 @@ public class UserFriends {
     }
 
     void showFriendRequests() {
-        if (this.FRIENDREQUESTS.get(this.accountManagement.getLoggedInUser()) == null) {
-            System.out.println("Sem convites.");
-            return;
-        }
-        Iterator<String> REQUESTS = this.FRIENDREQUESTS.get(this.accountManagement.getLoggedInUser()).iterator();
-        System.out.println("===Lista de convites===");
-        while (REQUESTS.hasNext()) {
-            String REQUEST = REQUESTS.next();
-            System.out.println(REQUEST);
-        }
-        System.out.println("=======================\n");
+         try {
+             Iterator<String> REQUESTS = this.FRIENDREQUESTS.get(this.accountManagement.getLoggedInUser()).iterator();
+             System.out.println("===Lista de convites===");
+             while (REQUESTS.hasNext()) {
+                 String REQUEST = REQUESTS.next();
+                 System.out.println(REQUEST);
+             }
+             System.out.println("=======================\n");
+         } catch(NullPointerException e) {
+             System.out.println("Sem convites.");
+         }
     }
 
     void showFriendList(){
-        if (this.FRIENDLIST.get(this.accountManagement.getLoggedInUser()) == null) {
-            System.out.println("Sem amigos.");
-            return;
-        }
+        try {
+            Iterator<String> FRIENDS = this.FRIENDLIST.get(this.accountManagement.getLoggedInUser()).iterator();
 
-        Iterator<String> FRIENDS = this.FRIENDLIST.get(this.accountManagement.getLoggedInUser()).iterator();
-
-        System.out.println("===Lista de amigos===");
-        while (FRIENDS.hasNext()) {
-            String FRIEND = FRIENDS.next();
-            System.out.println(FRIEND);
+            System.out.println("===Lista de amigos===");
+            while (FRIENDS.hasNext()) {
+                String FRIEND = FRIENDS.next();
+                System.out.println(FRIEND);
+            }
+            System.out.println("=======================\n");
+        } catch(NullPointerException e) {
+            System.out.println("Sem amigos adicionados.");
         }
-        System.out.println("=======================\n");
     }
 
     boolean isYourFriend(String friendName) {
