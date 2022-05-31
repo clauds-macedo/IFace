@@ -19,7 +19,7 @@ public class UserFriends {
         System.out.println("Digite o nome de usuário que quer enviar o convite");
         String userToSendInvite = scanner.next();
         if (!this.database.checkAccountExistence(userToSendInvite)) {
-            throw new AccountException();
+            throw new AccountException("A conta não existe no banco de dados.");
         }
         if (!this.FRIENDREQUESTS.containsKey(userToSendInvite)){
             this.FRIENDREQUESTS.put(userToSendInvite, new ArrayList<String>());

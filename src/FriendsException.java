@@ -1,7 +1,7 @@
 public class FriendsException extends Exception {
 
     public String userIsNotYourFriend() {
-        return "O usuario nao eh seu amigo.";
+        return "O usuário não é seu amigo.";
     }
 
     public String emptyFriendlist() {

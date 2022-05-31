@@ -20,15 +20,20 @@ public class Database {
         System.out.println(this.usersDatabase.keySet());
     }
 
-    boolean checkAccountExistence(String user) throws AccountException {
+    boolean checkAccountExistence(String user)  {
         if (!this.usersDatabase.containsKey(user)) {
-            throw new AccountException();
+            return false;
         }
         return true;
     }
 
     boolean compareWithUserDatabase(String userLogin, String userPassword) {
-        return (usersDatabase.get(userLogin).get(0).equals(userPassword));
+        try {
+            return usersDatabase.get(userLogin).get(0).equals(userPassword);
+        } catch(NullPointerException e) {
+
+        }
+        return false;
     }
 
     public void deleteUserInfo(String loggedInUser,

@@ -15,8 +15,8 @@ public class AccountManagement extends Database {
 
         System.out.println("Senha:");
         String password = scanner.next();
-        if (!checkAccountExistence(username) || !compareWithUserDatabase(username, password)) {
-            throw new AccountException();
+        if (!compareWithUserDatabase(username, password)) {
+            throw new AccountException("O usuário não existe no banco de dados.");
         }
 
         if (compareWithUserDatabase(username, password)) {
@@ -32,16 +32,18 @@ public class AccountManagement extends Database {
         System.out.println("Digite o login");
         String login = scanner.next();
 
-        if (loginContainsSpace(login)) throw new AccountException();
-
+        if (loginContainsSpace(login)) throw new AccountException("O login não pode conter espaços.");
+        else if (loginContainsInvalidChar(login)) {
+            throw new AccountException("O seu login não pode contar números ou caracteres especiais.");
+        }
         System.out.println("Digite a senha");
         String password = scanner.next();
 
         System.out.println("Digite o apelido");
         String nickname = scanner.next();
 
-        if (checkAccountExistence(login)) {
-            throw new AccountException();
+        if (!checkAccountExistence(login)) {
+            throw new AccountException("O login já existe.");
         }
 
         insertUserOnDatabase(new User(login, password, nickname));
@@ -49,8 +51,11 @@ public class AccountManagement extends Database {
     }
 
     boolean loginContainsSpace(String login) {
-        if (login.contains(" ")) return true;
-        return false;
+        return (login.contains(" "));
+    }
+
+    boolean loginContainsInvalidChar(String login) {
+        return login.matches("\\w+\\.?");
     }
 
 

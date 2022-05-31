@@ -18,7 +18,7 @@ public class Community {
 
     public void addCommunity(String communityName, String communityDescription, String communityOwner) throws CommunityException {
         if (CommunityMembers.containsKey(communityName)) {
-            throw new CommunityException();
+            throw new CommunityException("A comunidade não existe");
         }
         CommunityList.add(new Community(communityName, communityDescription, communityOwner));
         CommunityMembers.put(communityName, new ArrayList<>());
@@ -40,7 +40,7 @@ public class Community {
         System.out.println("Digite o nome da comunidade na qual deseja entrar");
         String communityName = scanner.next();
         if (CommunityMembers.get(communityName).contains(user)) {
-            throw new CommunityException();
+            throw new CommunityException("Já existe uma comunidade com esse nome.");
         }
         CommunityMembers.get(communityName).add(user);
     }

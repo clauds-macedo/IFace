@@ -1,12 +1,13 @@
 public class CommunityException extends Exception {
 
-    @Override
-    public String getMessage() {
-        return "A comunidade ja existe.";
+    String message;
+    public CommunityException(String message) {
+        this.message = message;
     }
 
-    public String userIsMember() {
-        return "O usuario ja existe nessa comunidade.";
+    @Override
+    public String getMessage() {
+        return "CommunityException: " + message;
     }
 
 }

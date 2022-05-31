@@ -39,7 +39,7 @@ public class CLI {
                                 isLoggedIn = true;
                             }
                         } catch(AccountException e) {
-                            System.out.println(e.accountDontExists());
+                            System.out.println(e.getMessage());
                         }
                     }
                     else if (OPTION == 3) {
@@ -68,90 +68,74 @@ public class CLI {
                         + "12: Remover sua conta\n"
                         + "999: Logout");
 
-                int OPTION = scanner.nextInt();
+                try {
+                    int OPTION = scanner.nextInt();
 
-                if (OPTION == 999) {
-                    this.isLoggedIn = false;
-                }
+                    if (OPTION == 999) {
+                        this.isLoggedIn = false;
+                    } else if (OPTION == 1) {
+                        accountManagement.selectOptionForChangingAccountInfo();
+                    } else if (OPTION == 2) {
+                        try {
+                            userFriends.sendRequestToAUser();
+                        } catch (AccountException e) {
+                            System.out.println(e.getMessage());
+                        }
+                    } else if (OPTION == 3) {
+                        userFriends.showFriendRequests();
+                    } else if (OPTION == 4) {
+                        this.userFriends.showFriendList();
+                    } else if (OPTION == 5) {
+                        System.out.println("Digite o nome da comunidade que deseja criar");
+                        String communityName = scanner.next();
 
-                else if (OPTION == 1) {
-                    accountManagement.selectOptionForChangingAccountInfo();
-                }
+                        System.out.println("Digite a descrição da comunidade que deseja criar");
+                        String communityDescription = scanner.next();
 
-                else if (OPTION == 2) {
-                    try {
-                        userFriends.sendRequestToAUser();
-                    } catch (AccountException e) {
-                        System.out.println(e.accountDontExists());
+                        try {
+                            community.addCommunity(
+                                    communityName,
+                                    communityDescription,
+                                    accountManagement.getLoggedInUser());
+                        } catch (CommunityException e) {
+                            System.out.println(e.getMessage());
+                        }
+                    } else if (OPTION == 6) {
+                        community.showCommunity();
+                    } else if (OPTION == 7) {
+                        try {
+                            community.addMember(accountManagement.getLoggedInUser());
+                        } catch (CommunityException e) {
+                            System.out.println(e.getMessage());
+                        }
+                    } else if (OPTION == 8) {
+                        try {
+                            user.dataForSendingMessages(userFriends, accountManagement.getLoggedInUser());
+                        } catch (FriendsException e) {
+                            System.out.println(e.userIsNotYourFriend());
+                        }
+                    } else if (OPTION == 9) {
+                        try {
+                            user.showMessages(accountManagement.getLoggedInUser(), userFriends);
+                        } catch (FriendsException e) {
+                            System.out.println(e.emptyFriendlist());
+                        }
+                    } else if (OPTION == 10) {
+                        user.showFeed(userFriends, accountManagement.getLoggedInUser());
+                    } else if (OPTION == 11) {
+                        try {
+                            user.dataForPostOnFeed(accountManagement.getLoggedInUser());
+                        } catch (FeedException e) {
+                            System.out.println(e.getMessage());
+                        }
+                    } else if (OPTION == 12) {
+                        database.
+                                deleteUserInfo(accountManagement.getLoggedInUser(), userFriends, user, community);
+                        isLoggedIn = false;
                     }
-                }
-
-                else if (OPTION == 3) {
-                    userFriends.showFriendRequests();
-                }
-
-                else if (OPTION == 4) {
-                    this.userFriends.showFriendList();
-                }
-
-                else if (OPTION == 5) {
-                    System.out.println("Digite o nome da comunidade que deseja criar");
-                    String communityName = scanner.next();
-
-                    System.out.println("Digite a descrição da comunidade que deseja criar");
-                    String communityDescription = scanner.next();
-
-                    try {
-                        community.addCommunity(
-                                communityName,
-                                communityDescription,
-                                accountManagement.getLoggedInUser());
-                    } catch (CommunityException e) {
-                        System.out.println(e.getMessage());
-                    }
-                }
-
-                else if (OPTION == 6) {
-                    community.showCommunity();
-                }
-
-                else if (OPTION == 7) {
-                    try {
-                        community.addMember(accountManagement.getLoggedInUser());
-                    }
-                    catch (CommunityException e) {
-                        System.out.println(e.userIsMember());
-                    }
-                }
-
-                else if (OPTION == 8) {
-                    try {
-                        user.dataForSendingMessages(userFriends, accountManagement.getLoggedInUser());
-                    } catch(FriendsException e) {
-                        System.out.println(e.userIsNotYourFriend());
-                    }
-                }
-                else if (OPTION == 9) {
-                    try {
-                        user.showMessages(accountManagement.getLoggedInUser(), userFriends);
-                    } catch(FriendsException e) {
-                        System.out.println(e.emptyFriendlist());
-                    }
-                }
-                else if (OPTION == 10) {
-                    user.showFeed(userFriends, accountManagement.getLoggedInUser());
-                }
-                else if (OPTION == 11) {
-                    try {
-                        user.dataForPostOnFeed(accountManagement.getLoggedInUser());
-                    } catch(FeedException e) {
-                        System.out.println(e.getMessage());
-                    }
-                }
-                else if (OPTION == 12) {
-                    database.
-                            deleteUserInfo(accountManagement.getLoggedInUser(), userFriends, user, community);
-                    isLoggedIn = false;
+                } catch(InputMismatchException e) {
+                    System.out.println("Digite apenas números.");
+                    scanner.next();
                 }
             }
         }
