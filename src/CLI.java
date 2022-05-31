@@ -112,13 +112,13 @@ public class CLI {
                         try {
                             user.dataForSendingMessages(userFriends, accountManagement.getLoggedInUser());
                         } catch (FriendsException e) {
-                            System.out.println(e.userIsNotYourFriend());
+                            System.out.println(e.getMessage());
                         }
                     } else if (OPTION == 9) {
                         try {
                             user.showMessages(accountManagement.getLoggedInUser(), userFriends);
                         } catch (FriendsException e) {
-                            System.out.println(e.emptyFriendlist());
+                            System.out.println(e.getMessage());
                         }
                     } else if (OPTION == 10) {
                         user.showFeed(userFriends, accountManagement.getLoggedInUser());

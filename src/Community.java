@@ -38,11 +38,17 @@ public class Community {
 
     public void addMember(String user) throws CommunityException {
         System.out.println("Digite o nome da comunidade na qual deseja entrar");
-        String communityName = scanner.next();
-        if (CommunityMembers.get(communityName).contains(user)) {
-            throw new CommunityException("Já existe uma comunidade com esse nome.");
+        try {
+            String communityName = scanner.next();
+            if (CommunityMembers.get(communityName).contains(user)) {
+                throw new CommunityException("Você já está nessa comunidade com esse nome.");
+            }
+            CommunityMembers.get(communityName).add(user);
         }
-        CommunityMembers.get(communityName).add(user);
+        catch(NullPointerException e) {
+            System.out.println("A comunidade não existe.");
+        }
+
     }
 
     public void deleteCommunities(String communityOwner) {
