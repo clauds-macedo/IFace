@@ -1,30 +1,10 @@
 # IFace
 
-- Todas as questões foram implementadas corretamente.
+Code Smells:
 
 ```
-1 Criação de Conta ✅
-
-2 Criação/Edição de Perfil ✅ 
-
-3 Adição de Amigos ✅
-
-4 Envio de Mensagens ✅
-
-5 Criação de Comunidades ✅
-
-6 Adição de membros ✅
-
-7 Recuperar Informações sobre um
-determinado Usuário ✅
-
-8 Remoção de Conta ✅
-
-9 Envio de Mensagens no Feed de
-Notícias ✅
-
-10 Controle de visualização do Feed
-de Notícias ✅
+1 - A classe CLI possui diversas conexões com as classes, além da quantidades de if's, ou seja, é um Long Method.
+2 - A classe UserFriends também possui um Long Method (deleteYourDataFriend).
+3 - A classe AccountManagement possui um Primitive Obssession, já que usa vetor para guardar certos dados.
+4 - Database só possui uma sub-classe, o que configura uma Lazy Class.
 ```
-
-Conceitos de Orientação a Objetos implementados: encapsulamento, abstração, polimorfismo e herança
