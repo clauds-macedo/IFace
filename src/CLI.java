@@ -1,5 +1,4 @@
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.util.*;
 
 public class CLI {
 
@@ -10,47 +9,57 @@ public class CLI {
     User user = new User();
     Database database = new Database();
     boolean isLoggedIn = false;
+    public void showCLI() throws AccountException, FriendsException, FeedException, CommunityException {
 
-    public void showCLI() {
+        List<Command> commandList = new ArrayList<>();
+
+        OpenLogin openLogin = new OpenLogin(accountManagement);
+        OpenRegister openRegister = new OpenRegister(accountManagement);
+        OpenEditInfo openEditInfo = new OpenEditInfo(accountManagement);
+        OpenSendRequest openSendRequest = new OpenSendRequest(userFriends);
+        OpenShowRequests openShowRequests = new OpenShowRequests(userFriends);
+        OpenFriendlist openFriendlist = new OpenFriendlist(userFriends);
+        OpenCreateCommunity openCreateCommunity = new OpenCreateCommunity(community);
+        OpenCommunityList openCommunityList = new OpenCommunityList(community);
+
         database.insertUserOnDatabase(new User("claudemir", "123", "1"));
         database.insertUserOnDatabase(new User("meteu", "essa", "1"));
         database.insertUserOnDatabase(new User("baldoino", "123", "1"));
-        boolean isInputValid = false;
+
+        CommandController commandController = new CommandController();
+
         while (true) {
             if (!isLoggedIn) {
-                System.out.println("1: Registrar\n" +
+                commandList.add(openRegister);
+                commandList.add(openLogin);
+
+                System.out.println("" +
+                        "1: Registrar\n" +
                         "2: Logar\n" +
                         "3: Database");
+
                 try {
                     int OPTION = scanner.nextInt();
-                    if (OPTION == 999) {
-                        break;
+                    try {
+                        commandController.setCommand(commandList.get(OPTION - 1));
+                        commandController.commandWasSet();
+                        if (OPTION == 2) isLoggedIn = true;
+                    } catch(AccountException e) {
+                        System.out.println(e.getMessage());
                     }
-                    else if (OPTION == 1) {
-                        try {
-                            accountManagement.register();
-                        } catch(AccountException e) {
-                            System.out.println(e.getMessage());
-                        }
-                    }
-                    else if (OPTION == 2) {
-                        try {
-                            if (accountManagement.login()) {
-                                isLoggedIn = true;
-                            }
-                        } catch(AccountException e) {
-                            System.out.println(e.getMessage());
-                        }
-                    }
-                    else if (OPTION == 3) {
-                        database.showUserDatabase();
-                    }
+
                 } catch (InputMismatchException e) {
                     System.out.println("Input invalido. Digite um numero, nao um caractere. \nDigite novamente.");
                     scanner.next();
                 }
             }
             else {
+                commandList.add(openEditInfo);
+                commandList.add(openSendRequest);
+                commandList.add(openShowRequests);
+                commandList.add(openFriendlist);
+                commandList.add(openCreateCommunity);
+                commandList.add(openCommunityList);
                 System.out.println("User: " + accountManagement.getLoggedInUser());
 
                 System.out.println("Escolha uma opção:\n"
@@ -72,66 +81,14 @@ public class CLI {
                     int OPTION = scanner.nextInt();
 
                     if (OPTION == 999) {
-                        this.isLoggedIn = false;
-                    } else if (OPTION == 1) {
-                        accountManagement.selectOptionForChangingAccountInfo();
-                    } else if (OPTION == 2) {
+                        accountManagement.isLoggedIn = false;
+                    } else {
                         try {
-                            userFriends.sendRequestToAUser();
-                        } catch (AccountException e) {
+                            commandController.setCommand(commandList.get(OPTION - 1));
+                            commandController.commandWasSet();
+                        } catch(AccountException e) {
                             System.out.println(e.getMessage());
                         }
-                    } else if (OPTION == 3) {
-                        userFriends.showFriendRequests();
-                    } else if (OPTION == 4) {
-                        this.userFriends.showFriendList();
-                    } else if (OPTION == 5) {
-                        System.out.println("Digite o nome da comunidade que deseja criar");
-                        String communityName = scanner.next();
-
-                        System.out.println("Digite a descrição da comunidade que deseja criar");
-                        String communityDescription = scanner.next();
-
-                        try {
-                            community.addCommunity(
-                                    communityName,
-                                    communityDescription,
-                                    accountManagement.getLoggedInUser());
-                        } catch (CommunityException e) {
-                            System.out.println(e.getMessage());
-                        }
-                    } else if (OPTION == 6) {
-                        community.showCommunity();
-                    } else if (OPTION == 7) {
-                        try {
-                            community.addMember(accountManagement.getLoggedInUser());
-                        } catch (CommunityException e) {
-                            System.out.println(e.getMessage());
-                        }
-                    } else if (OPTION == 8) {
-                        try {
-                            user.dataForSendingMessages(userFriends, accountManagement.getLoggedInUser());
-                        } catch (FriendsException e) {
-                            System.out.println(e.getMessage());
-                        }
-                    } else if (OPTION == 9) {
-                        try {
-                            user.showMessages(accountManagement.getLoggedInUser(), userFriends);
-                        } catch (FriendsException e) {
-                            System.out.println(e.getMessage());
-                        }
-                    } else if (OPTION == 10) {
-                        user.showFeed(userFriends, accountManagement.getLoggedInUser());
-                    } else if (OPTION == 11) {
-                        try {
-                            user.dataForPostOnFeed(accountManagement.getLoggedInUser());
-                        } catch (FeedException e) {
-                            System.out.println(e.getMessage());
-                        }
-                    } else if (OPTION == 12) {
-                        database.
-                                deleteUserInfo(accountManagement.getLoggedInUser(), userFriends, user, community);
-                        isLoggedIn = false;
                     }
                 } catch(InputMismatchException e) {
                     System.out.println("Digite apenas números.");

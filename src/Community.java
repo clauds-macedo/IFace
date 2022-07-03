@@ -4,6 +4,7 @@ public class Community {
 
     Map<String, ArrayList<String>> CommunityMembers = new HashMap<>();
     ArrayList<Community> CommunityList = new ArrayList<>();
+    AccountManagement accountManagement = new AccountManagement();
 
     Scanner scanner = new Scanner(System.in).useDelimiter("\\n");
 
@@ -24,6 +25,24 @@ public class Community {
         CommunityMembers.put(communityName, new ArrayList<>());
         CommunityMembers.get(communityName).add(communityOwner);
     }
+
+    public void createCommunity() {
+        System.out.println("Digite o nome da comunidade que deseja criar");
+        String communityName = scanner.next();
+
+        System.out.println("Digite a descrição da comunidade que deseja criar");
+        String communityDescription = scanner.next();
+
+        try {
+                addCommunity(
+                    communityName,
+                    communityDescription,
+                accountManagement.getLoggedInUser());
+        } catch (CommunityException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
 
     public void showCommunity() {
         for (Community community : CommunityList) {

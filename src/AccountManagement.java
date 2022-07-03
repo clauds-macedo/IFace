@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 public class AccountManagement extends Database {
     private static String loggedInUser;
+    public static Boolean isLoggedIn = false;
     Scanner scanner = new Scanner(System.in).useDelimiter("\\n");
     public String getLoggedInUser() {
         return loggedInUser;
@@ -22,20 +23,19 @@ public class AccountManagement extends Database {
         if (compareWithUserDatabase(username, password)) {
             this.loggedInUser = username;
             System.out.println("Logado com sucesso.\nSeja bem vindo, " + username);
+            isLoggedIn = true;
             return true;
         }
 
         return false;
     }
 
-    void register() throws AccountException {
+    Boolean register() throws AccountException {
         System.out.println("Digite o login");
         String login = scanner.next();
 
         if (loginContainsSpace(login)) throw new AccountException("O login não pode conter espaços.");
-        else if (loginContainsInvalidChar(login)) {
-            throw new AccountException("O seu login não pode contar números ou caracteres especiais.");
-        }
+
         System.out.println("Digite a senha");
         String password = scanner.next();
 
@@ -48,14 +48,11 @@ public class AccountManagement extends Database {
 
         insertUserOnDatabase(new User(login, password, nickname));
         System.out.println("Registrado com sucesso!");
+        return true;
     }
 
     boolean loginContainsSpace(String login) {
         return (login.contains(" "));
-    }
-
-    boolean loginContainsInvalidChar(String login) {
-        return login.matches("\\w+\\.?");
     }
 
 
