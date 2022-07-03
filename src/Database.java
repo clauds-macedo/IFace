@@ -39,8 +39,7 @@ public class Database {
     public void deleteUserInfo(String loggedInUser,
                                UserFriends userFriends,
                                User user,
-                               Community community,
-                               Boolean isLoggedIn) {
+                               Community community) {
         System.out.println("Tem certeza que deseja excluir todos os seus dados?" +
                 "Essa ação é irreversível\n" +
                 "1 - Sim\n" +
@@ -54,7 +53,6 @@ public class Database {
         user.deleteMessages(loggedInUser);
         user.deletePostOnFeed(loggedInUser);
         community.deleteCommunities(loggedInUser);
-        isLoggedIn = false;
     }
 
 }
