@@ -30,7 +30,7 @@ public class AccountManagement extends Database {
         return false;
     }
 
-    Boolean register() throws AccountException {
+    void register() throws AccountException {
         System.out.println("Digite o login");
         String login = scanner.next();
 
@@ -42,13 +42,12 @@ public class AccountManagement extends Database {
         System.out.println("Digite o apelido");
         String nickname = scanner.next();
 
-        if (!checkAccountExistence(login)) {
+        if (checkAccountExistence(login)) {
             throw new AccountException("O login já existe.");
         }
 
         insertUserOnDatabase(new User(login, password, nickname));
         System.out.println("Registrado com sucesso!");
-        return true;
     }
 
     boolean loginContainsSpace(String login) {

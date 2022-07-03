@@ -100,7 +100,7 @@ public class CLI {
                         try {
                             commandController.setCommand(commandList.get(OPTION - 1));
                             commandController.commandWasSet();
-                        } catch(AccountException e) {
+                        } catch(AccountException | InputMismatchException e) {
                             System.out.println(e.getMessage());
                         }
                     }
