@@ -100,12 +100,12 @@ public class CLI {
                         try {
                             commandController.setCommand(commandList.get(OPTION - 1));
                             commandController.commandWasSet();
-                        } catch(AccountException | InputMismatchException e) {
+                        } catch(AccountException e) {
                             System.out.println(e.getMessage());
                         }
                     }
-                } catch(InputMismatchException e) {
-                    System.out.println("Digite apenas números.");
+                } catch(InputMismatchException | IndexOutOfBoundsException e) {
+                    System.out.println("Digite apenas números ou uma opção válida.");
                     scanner.next();
                 }
             }
