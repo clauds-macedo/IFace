@@ -21,6 +21,12 @@ public class CLI {
         OpenFriendlist openFriendlist = new OpenFriendlist(userFriends);
         OpenCreateCommunity openCreateCommunity = new OpenCreateCommunity(community);
         OpenCommunityList openCommunityList = new OpenCommunityList(community);
+        OpenEnterInCommunity openEnterInCommunity = new OpenEnterInCommunity(community, accountManagement.getLoggedInUser());
+        OpenSendMessage openSendMessage = new OpenSendMessage(userFriends, user, accountManagement);
+        OpenShowMessages openShowMessages = new OpenShowMessages(userFriends, user, accountManagement);
+        OpenFeed openFeed = new OpenFeed(userFriends, user, accountManagement);
+        OpenPostOnFeed openPostOnFeed = new OpenPostOnFeed(user, accountManagement);
+        OpenDeleteAccount openDeleteAccount = new OpenDeleteAccount(database, accountManagement, community, user, userFriends);
 
         database.insertUserOnDatabase(new User("claudemir", "123", "1"));
         database.insertUserOnDatabase(new User("meteu", "essa", "1"));
@@ -30,6 +36,7 @@ public class CLI {
 
         while (true) {
             if (!isLoggedIn) {
+                commandList.clear();
                 commandList.add(openRegister);
                 commandList.add(openLogin);
 
@@ -44,7 +51,7 @@ public class CLI {
                         commandController.setCommand(commandList.get(OPTION - 1));
                         commandController.commandWasSet();
                         if (OPTION == 2) isLoggedIn = true;
-                    } catch(AccountException e) {
+                    } catch(AccountException | IndexOutOfBoundsException e) {
                         System.out.println(e.getMessage());
                     }
 
@@ -54,12 +61,19 @@ public class CLI {
                 }
             }
             else {
+                commandList.clear();
                 commandList.add(openEditInfo);
                 commandList.add(openSendRequest);
                 commandList.add(openShowRequests);
                 commandList.add(openFriendlist);
                 commandList.add(openCreateCommunity);
                 commandList.add(openCommunityList);
+                commandList.add(openEnterInCommunity);
+                commandList.add(openSendMessage);
+                commandList.add(openShowMessages);
+                commandList.add(openFeed);
+                commandList.add(openPostOnFeed);
+                commandList.add(openDeleteAccount);
                 System.out.println("User: " + accountManagement.getLoggedInUser());
 
                 System.out.println("Escolha uma opção:\n"
@@ -81,7 +95,7 @@ public class CLI {
                     int OPTION = scanner.nextInt();
 
                     if (OPTION == 999) {
-                        accountManagement.isLoggedIn = false;
+                        isLoggedIn = false;
                     } else {
                         try {
                             commandController.setCommand(commandList.get(OPTION - 1));
