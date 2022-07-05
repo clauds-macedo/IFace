@@ -49,7 +49,8 @@ public class Database {
             return;
         }
         usersDatabase.remove(loggedInUser);
-        userFriends.deleteYourFriendData();
+        userFriends.deleteYourFriendData(userFriends.getFriendlistMap());
+        userFriends.deleteYourFriendData(userFriends.getRequestsList());
         user.deleteMessages(loggedInUser);
         user.deletePostOnFeed(loggedInUser);
         community.deleteCommunities(loggedInUser);

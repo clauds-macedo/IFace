@@ -2,8 +2,8 @@ import java.util.*;
 
 public class UserFriends {
 
-    public static Map<String, ArrayList<String>> FRIENDLIST;
-    public static Map<String, ArrayList<String>> FRIENDREQUESTS;
+    private static Map<String, ArrayList<String>> FRIENDLIST;
+    private static Map<String, ArrayList<String>> FRIENDREQUESTS;
 
     Database database = new Database();
     AccountManagement accountManagement = new AccountManagement();
@@ -11,8 +11,16 @@ public class UserFriends {
     Scanner scanner = new Scanner(System.in).useDelimiter("\\n");
 
     UserFriends(){
-        this.FRIENDLIST = new HashMap<String, ArrayList<String>>();
-        this.FRIENDREQUESTS = new HashMap<String, ArrayList<String>>();
+        FRIENDLIST = new HashMap<String, ArrayList<String>>();
+        FRIENDREQUESTS = new HashMap<String, ArrayList<String>>();
+    }
+
+    public Map<String, ArrayList<String>> getFriendlistMap() {
+        return FRIENDLIST;
+    }
+
+    public Map<String, ArrayList<String>> getRequestsList() {
+        return FRIENDREQUESTS;
     }
 
     void sendRequestToAUser() throws AccountException {
@@ -21,18 +29,18 @@ public class UserFriends {
         if (!this.database.checkAccountExistence(userToSendInvite)) {
             throw new AccountException("A conta não existe no banco de dados.");
         }
-        if (!this.FRIENDREQUESTS.containsKey(userToSendInvite)){
-            this.FRIENDREQUESTS.put(userToSendInvite, new ArrayList<String>());
+        if (!FRIENDREQUESTS.containsKey(userToSendInvite)){
+            FRIENDREQUESTS.put(userToSendInvite, new ArrayList<String>());
         }
         if (!userToSendInvite.equals(accountManagement.getLoggedInUser())){
-            this.FRIENDREQUESTS.get(userToSendInvite).add(accountManagement.getLoggedInUser());
+            FRIENDREQUESTS.get(userToSendInvite).add(accountManagement.getLoggedInUser());
             System.out.println("Convite enviado.");
         }
         checkIfUsersAreFriends();
     }
 
     void checkIfUsersAreFriends() {
-        if (this.FRIENDREQUESTS.get(this.accountManagement.getLoggedInUser()) == null) {
+        if (FRIENDREQUESTS.get(this.accountManagement.getLoggedInUser()) == null) {
             return;
         }
         Iterator<String> REQUESTS = FRIENDREQUESTS
@@ -41,16 +49,16 @@ public class UserFriends {
         while (REQUESTS.hasNext()) {
             String REQUEST = REQUESTS.next();
             try {
-                if (this.FRIENDREQUESTS.get(REQUEST).contains(this.accountManagement.getLoggedInUser())) {
-                    if (!this.FRIENDLIST.containsKey(this.accountManagement.getLoggedInUser())) {
-                        this.FRIENDLIST.put(this.accountManagement.getLoggedInUser(), new ArrayList<String>());
-                        this.FRIENDLIST.put(REQUEST, new ArrayList<String>());
+                if (FRIENDREQUESTS.get(REQUEST).contains(this.accountManagement.getLoggedInUser())) {
+                    if (!FRIENDLIST.containsKey(this.accountManagement.getLoggedInUser())) {
+                        FRIENDLIST.put(this.accountManagement.getLoggedInUser(), new ArrayList<String>());
+                        FRIENDLIST.put(REQUEST, new ArrayList<String>());
                     }
-                    if (!this.FRIENDLIST.get(this.accountManagement.getLoggedInUser()).contains(REQUEST)) {
-                        this.FRIENDLIST.get(this.accountManagement.getLoggedInUser()).add(REQUEST);
+                    if (!FRIENDLIST.get(this.accountManagement.getLoggedInUser()).contains(REQUEST)) {
+                        FRIENDLIST.get(this.accountManagement.getLoggedInUser()).add(REQUEST);
                     }
-                    if (!this.FRIENDLIST.get(REQUEST).contains(this.accountManagement.getLoggedInUser())) {
-                        this.FRIENDLIST.get(REQUEST).add(this.accountManagement.getLoggedInUser());
+                    if (!FRIENDLIST.get(REQUEST).contains(this.accountManagement.getLoggedInUser())) {
+                        FRIENDLIST.get(REQUEST).add(this.accountManagement.getLoggedInUser());
                     }
                     isAdded = true;
                 }
@@ -63,7 +71,7 @@ public class UserFriends {
 
     void showFriendRequests() {
          try {
-             Iterator<String> REQUESTS = this.FRIENDREQUESTS.get(this.accountManagement.getLoggedInUser()).iterator();
+             Iterator<String> REQUESTS = FRIENDREQUESTS.get(this.accountManagement.getLoggedInUser()).iterator();
              System.out.println("===Lista de convites===");
              while (REQUESTS.hasNext()) {
                  String REQUEST = REQUESTS.next();
@@ -77,7 +85,7 @@ public class UserFriends {
 
     void showFriendList(){
         try {
-            Iterator<String> FRIENDS = this.FRIENDLIST.get(this.accountManagement.getLoggedInUser()).iterator();
+            Iterator<String> FRIENDS = FRIENDLIST.get(this.accountManagement.getLoggedInUser()).iterator();
 
             System.out.println("===Lista de amigos===");
             while (FRIENDS.hasNext()) {
@@ -91,46 +99,26 @@ public class UserFriends {
     }
 
     boolean isYourFriend(String friendName) {
-        if (this.FRIENDLIST.isEmpty()) return false;
-        if (this.FRIENDLIST.get(this.accountManagement.getLoggedInUser()) == null) return false;
-        if (this.FRIENDLIST.get(this.accountManagement.getLoggedInUser()).contains(friendName)) return true;
-        return false;
+        if (FRIENDLIST.isEmpty()) return false;
+        if (FRIENDLIST.get(this.accountManagement.getLoggedInUser()) == null) return false;
+        return FRIENDLIST.get(this.accountManagement.getLoggedInUser()).contains(friendName);
     }
 
     boolean isFriendlistEmpty (){
-        return this.FRIENDLIST.isEmpty();
+        return FRIENDLIST.isEmpty();
     }
 
-    public void deleteYourFriendData() {
-        if (FRIENDREQUESTS.get(accountManagement.getLoggedInUser()) != null) {
-            FRIENDREQUESTS.remove(accountManagement.getLoggedInUser());
+    public void deleteYourFriendData(Map<String, ArrayList<String>> List) {
+        if (List.get(accountManagement.getLoggedInUser()) != null) {
+            List.remove(accountManagement.getLoggedInUser());
         }
-        if (FRIENDLIST.get(accountManagement.getLoggedInUser()) != null) {
-            FRIENDLIST.remove(accountManagement.getLoggedInUser());
-        }
-        List<String> FriendlistKeySet = new ArrayList<>(FRIENDLIST.keySet());
-        List<String> FriendRequestKeySet = new ArrayList<>(FRIENDREQUESTS.keySet());
-
-        Iterator<String> friendlistIterator = FriendlistKeySet.iterator();
-        Iterator<String> friendRequestIterator = FriendRequestKeySet.iterator();
-
+        List<String> listKeySet = new ArrayList<>(List.keySet());
+        Iterator<String> friendlistIterator = listKeySet.iterator();
         while (friendlistIterator.hasNext()) {
             String currentUsername = friendlistIterator.next();
-            if (FRIENDLIST.get(currentUsername) != null
-                    &&
-                FRIENDLIST.get(currentUsername).contains(accountManagement.getLoggedInUser())) {
-                    FRIENDLIST.get(currentUsername).remove(accountManagement.getLoggedInUser());
+            if (List.get(currentUsername) != null) {
+                List.get(currentUsername).remove(accountManagement.getLoggedInUser());
             }
         }
-
-        while (friendRequestIterator.hasNext()) {
-            String currentUsername = friendRequestIterator.next();
-            if (FRIENDREQUESTS.get(currentUsername) != null
-                    &&
-                FRIENDREQUESTS.get(currentUsername).contains(accountManagement.getLoggedInUser())) {
-                    FRIENDREQUESTS.get(currentUsername).remove(accountManagement.getLoggedInUser());
-            }
-        }
-
     }
 }
