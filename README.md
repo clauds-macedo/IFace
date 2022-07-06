@@ -1,30 +1,10 @@
 # IFace
 
-- Todas as questões foram implementadas corretamente.
-
 ```
-1 Criação de Conta ✅
-
-2 Criação/Edição de Perfil ✅ 
-
-3 Adição de Amigos ✅
-
-4 Envio de Mensagens ✅
-
-5 Criação de Comunidades ✅
-
-6 Adição de membros ✅
-
-7 Recuperar Informações sobre um
-determinado Usuário ✅
-
-8 Remoção de Conta ✅
-
-9 Envio de Mensagens no Feed de
-Notícias ✅
-
-10 Controle de visualização do Feed
-de Notícias ✅
+## Design Patterns implementados:
+- Command: Implementado na classe CLI. Foi substituido o menu por uma classe controladora para executar as funções, evitando o uso de vários if's.
+- Extract Method: Aplicado na classe UserFriends, no método deleteYourUserFriendData. A mesma era um Long Method, havia uma duplicação de código e foi resolvida utilizando uma única função.
+- Extract Class: A classe User possuia funções que não deviam estar lá. Foi criada uma nova classe (UserInbox) para separá-las.
 ```
 
 Conceitos de Orientação a Objetos implementados: encapsulamento, abstração, polimorfismo e herança
