@@ -4,8 +4,9 @@ public class OpenDeleteAccount implements Command {
     AccountManagement accountManagement;
     UserFriends userFriends;
     Database database;
+    UserInbox userInbox;
 
-    public OpenDeleteAccount(Database database, AccountManagement accountManagement, Community community, User user, UserFriends userFriends) {
+    public OpenDeleteAccount(Database database, AccountManagement accountManagement, Community community, User user, UserFriends userFriends, UserInbox userInbox) {
         this.community = community;
         this.user = user;
         this.accountManagement = accountManagement;
@@ -15,7 +16,7 @@ public class OpenDeleteAccount implements Command {
 
     @Override
     public void execute() throws CommunityException {
-        database.deleteUserInfo(accountManagement.getLoggedInUser(), userFriends, user, community);
+        database.deleteUserInfo(accountManagement.getLoggedInUser(), userFriends, userInbox, user, community);
     }
 
 }

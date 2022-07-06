@@ -7,6 +7,7 @@ public class CLI {
     UserFriends userFriends = new UserFriends();
     Community community = new Community();
     User user = new User();
+    UserInbox userInbox = new UserInbox();
     Database database = new Database();
     boolean isLoggedIn = false;
     public void showCLI() throws AccountException, FriendsException, FeedException, CommunityException {
@@ -22,11 +23,11 @@ public class CLI {
         OpenCreateCommunity openCreateCommunity = new OpenCreateCommunity(community);
         OpenCommunityList openCommunityList = new OpenCommunityList(community);
         OpenEnterInCommunity openEnterInCommunity = new OpenEnterInCommunity(community, accountManagement.getLoggedInUser());
-        OpenSendMessage openSendMessage = new OpenSendMessage(userFriends, user, accountManagement);
-        OpenShowMessages openShowMessages = new OpenShowMessages(userFriends, user, accountManagement);
+        OpenSendMessage openSendMessage = new OpenSendMessage(userFriends, userInbox, accountManagement);
+        OpenShowMessages openShowMessages = new OpenShowMessages(userFriends, userInbox, accountManagement);
         OpenFeed openFeed = new OpenFeed(userFriends, user, accountManagement);
         OpenPostOnFeed openPostOnFeed = new OpenPostOnFeed(user, accountManagement);
-        OpenDeleteAccount openDeleteAccount = new OpenDeleteAccount(database, accountManagement, community, user, userFriends);
+        OpenDeleteAccount openDeleteAccount = new OpenDeleteAccount(database, accountManagement, community, user, userFriends, userInbox);
 
         database.insertUserOnDatabase(new User("claudemir", "123", "1"));
         database.insertUserOnDatabase(new User("meteu", "essa", "1"));

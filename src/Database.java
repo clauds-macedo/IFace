@@ -38,6 +38,7 @@ public class Database {
 
     public void deleteUserInfo(String loggedInUser,
                                UserFriends userFriends,
+                               UserInbox userInbox,
                                User user,
                                Community community) {
         System.out.println("Tem certeza que deseja excluir todos os seus dados?" +
@@ -51,7 +52,7 @@ public class Database {
         usersDatabase.remove(loggedInUser);
         userFriends.deleteYourFriendData(userFriends.getFriendlistMap());
         userFriends.deleteYourFriendData(userFriends.getRequestsList());
-        user.deleteMessages(loggedInUser);
+        userInbox.deleteMessages(loggedInUser);
         user.deletePostOnFeed(loggedInUser);
         community.deleteCommunities(loggedInUser);
     }

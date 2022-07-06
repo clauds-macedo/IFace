@@ -1,17 +1,17 @@
 public class OpenSendMessage implements Command {
-    User user;
+    UserInbox userInbox;
     UserFriends userFriends;
     AccountManagement accountManagement;
 
-    public OpenSendMessage(UserFriends userFriends, User user, AccountManagement accountManagement) {
-        this.user = user;
+    public OpenSendMessage(UserFriends userFriends, UserInbox userInbox, AccountManagement accountManagement) {
+        this.userInbox = userInbox;
         this.userFriends = userFriends;
         this.accountManagement = accountManagement;
     }
 
     @Override
     public void execute() throws FriendsException {
-        user.dataForSendingMessages(userFriends, accountManagement.getLoggedInUser());
+        userInbox.dataForSendingMessages(userFriends, accountManagement.getLoggedInUser());
     }
 
 }
